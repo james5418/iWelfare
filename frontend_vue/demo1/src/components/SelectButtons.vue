@@ -1,14 +1,12 @@
 <template>
   <div>
-    <label for="tags-basic">簡易Tag搜尋測試</label>
-    <b-form-tags input-id="tags-basic" v-model="input_tags"></b-form-tags>
-    <p class="mt-2">Input_tags: {{ input_tags }}</p>
+    <p>hello, I'm search list interface</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: "SearchBar",
+  name: "SearchButtons",
   props: {
     msg: String,
   },

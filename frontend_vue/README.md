@@ -14,3 +14,7 @@ vue create project_name
 ```
 vue add bootstrap-vue
 ```
+### Vue CLI 測試方式:
+```
+npm run serve
+```

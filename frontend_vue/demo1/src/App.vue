@@ -1,13 +1,4 @@
 <template>
-  <!-- <div id="app">
-    <div id="nav">
-      <router-link to="/">首頁</router-link> |
-      <router-link to="/about">福利選單</router-link> |
-      <router-link to="/about">關於</router-link> |
-      <router-link to="/about">完善福利資料庫...</router-link>
-    </div>
-    <router-view />
-  </div> -->
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand>iWelfare</b-navbar-brand>
@@ -17,9 +8,9 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item to="/">首頁</b-nav-item>
-          <b-nav-item to="/about">福利選單</b-nav-item>
+          <b-nav-item to="/listsearch">福利選單</b-nav-item>
           <b-nav-item to="/about">關於</b-nav-item>
-          <b-nav-item to="/about">完善福利資料庫...</b-nav-item>
+          <b-nav-item to="/database">完善福利資料庫...</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->

@@ -15,6 +15,7 @@
       Pressed States: <strong>{{ btnStates1 }}</strong>
     </p>
 
+
     <h4>身份別</h4>
     <b-button-group size="lg">
       <b-button
@@ -30,6 +31,7 @@
       Pressed States: <strong>{{ btnStates2 }}</strong>
     </p>
 
+
     <h4>性別</h4>
     <b-form-group v-slot="{ ariaDescribedby }">
       <b-form-radio-group
@@ -43,6 +45,7 @@
         buttons
       ></b-form-radio-group>
     </b-form-group>
+
 
     <h4>居住國內滿183天</h4>
     <b-form-group v-slot="{ ariaDescribedby }">
@@ -58,9 +61,30 @@
       ></b-form-radio-group>
     </b-form-group>
 
-    <h4>出身年月（年齡）</h4>
+
+    <h4>年齡:{{ value }}</h4>
+    <b-container class="bv-example-row">
+      <b-row>
+        <b-col cols="1">{{ value }}</b-col>
+        <b-col cols="10">
+          <VueSlider
+            min="1"
+            max="100"
+            :marks="[0, 20, 40, 60, 80, 100]"
+            drag-on-click
+            :contained="true"
+            v-model="value"
+            @change="$emit('input', value)"
+          />
+        </b-col>
+      </b-row>
+    </b-container>
+
 
     <h4>設籍</h4>
+    <b-form-select v-model="selected4" :options="area" class="mt-3" style="width: 50%"></b-form-select>
+    <div class="mt-3">Selected: <strong>{{ selected4 }}</strong></div>
+
   </div>
 </template>
 
@@ -88,6 +112,13 @@ export default {
         { text: "是", value: "true" },
         { text: "否", value: "false" },
       ],
+      selected4: null,
+      area:[
+        { value: null, text: '請選擇你的戶籍地' },
+        { value: 'taipei', text: '台北市' },
+        { value: 'hsinchu', text: '新竹市' },
+        { value: 'kaohsiung', text: '高雄市' },
+      ],
     };
   },
   computed: {
@@ -97,6 +128,9 @@ export default {
     btnStates2() {
       return this.button2.map((btn) => btn.state);
     },
+  },
+  props: {
+    value: Number,
   },
 };
 </script>

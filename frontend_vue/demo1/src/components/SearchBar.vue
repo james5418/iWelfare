@@ -1,7 +1,10 @@
 <template>
   <div>
     <label for="tags-basic">簡易Tag搜尋測試</label>
-    <b-form-tags input-id="tags-basic" v-model="input_tags"></b-form-tags>
+    <div>
+      <b-form-tags input-id="tags-basic" v-model="input_tags" />
+    </div>
+
     <p class="mt-2">Input_tags: {{ input_tags }}</p>
   </div>
 </template>

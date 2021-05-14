@@ -1,12 +1,12 @@
 <template>
   <div>
-    <p>hello, I'm search list interface</p>
+    <p>Add database</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: "SearchButtons",
+  name: "AddDB",
   props: {
     msg: String,
   },

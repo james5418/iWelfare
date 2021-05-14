@@ -1,31 +1,25 @@
 <template>
   <div class="database">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <h3>{{ value }}</h3>
-    <VueSlider
-      v-model="value"
-      min="1"
-      max="100"
-      :marks="marks"
-      drag-on-click
-      :contained="true"
-      lazy
-    >
-      <template #tooltip>
-        <div>{{ value }}</div>
-      </template>
-    </VueSlider>
+
+    <AddDB />
+    <ReformDB />
   </div>
 </template>
 
 <script>
+import AddDB from "@/components/AddDB.vue";
+import ReformDB from "@/components/ReformDB.vue";
+
 export default {
   name: "Database",
-  components: {},
+  components: {
+    AddDB,
+    ReformDB,
+  },
   data() {
     return {
       value: 20,
-      marks: [0, 18, 30, 50, 80, 100],
     };
   },
 };

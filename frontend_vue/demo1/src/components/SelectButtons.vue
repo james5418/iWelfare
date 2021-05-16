@@ -68,6 +68,7 @@
       </b-row>
     </b-container>
 
+    <br>
     <h4>設籍</h4>
     <b-form-select
       v-model="selected4"

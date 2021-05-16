@@ -1,12 +1,12 @@
 <template>
   <b-container class="bv-example-row">
     <b-row>
-      <b-col cols="1">年齡: {{ value }}</b-col>
-      <b-col cols="11">
+      <!-- <b-col cols="1">年齡: {{ value }}</b-col> -->
+      <b-col cols="12">
         <VueSlider
           min="1"
           max="100"
-          :marks="[0, 18, 30, 50, 80, 100]"
+          :marks="[0, 20, 40, 60, 80, 100]"
           drag-on-click
           :contained="true"
           v-model="value"

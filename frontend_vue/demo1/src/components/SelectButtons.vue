@@ -63,15 +63,7 @@
       <b-row>
         <b-col cols="1">{{ value }}</b-col>
         <b-col cols="10">
-          <VueSlider
-            min="1"
-            max="100"
-            :marks="[0, 20, 40, 60, 80, 100]"
-            drag-on-click
-            :contained="true"
-            v-model="value"
-            @change="$emit('input', value)"
-          />
+          <AgeSlider v-model="value" />
         </b-col>
       </b-row>
     </b-container>
@@ -90,7 +82,12 @@
 </template>
 
 <script>
+import AgeSlider from "@/components/AgeSlider.vue";
+
 export default {
+  components: {
+    AgeSlider,
+  },
   data() {
     return {
       button1: [

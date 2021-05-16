@@ -30,7 +30,7 @@
       Pressed States: <strong>{{ btnStates2 }}</strong>
     </p>
 
-    <h4>性別</h4>
+    <!-- <h4>性別</h4>
     <b-form-group v-slot="{ ariaDescribedby }">
       <b-form-radio-group
         id="btn-radios-2"
@@ -42,9 +42,9 @@
         name="radio-btn-outline"
         buttons
       ></b-form-radio-group>
-    </b-form-group>
+    </b-form-group> -->
 
-    <h4>居住國內滿183天</h4>
+    <!-- <h4>居住國內滿183天</h4>
     <b-form-group v-slot="{ ariaDescribedby }">
       <b-form-radio-group
         id="btn-radios-3"
@@ -56,19 +56,47 @@
         name="radio-btn-outline"
         buttons
       ></b-form-radio-group>
-    </b-form-group>
+    </b-form-group> -->
 
-    <h4>年齡:{{ value }}</h4>
+    <h4>年齡:{{ ageValue }}</h4>
     <b-container class="bv-example-row">
       <b-row>
-        <b-col cols="1">{{ value }}</b-col>
-        <b-col cols="10">
-          <AgeSlider v-model="value" />
+        <!-- <b-col cols="1">{{ ageValue }}</b-col> -->
+        <b-col cols="12">
+          <VueSlider
+            min="0"
+            max="100"
+            :marks="[0, 20, 40, 60, 80, 100]"
+            drag-on-click
+            :contained="true"
+            v-model="ageValue"
+            @change="$emit('input', ageValue)"
+          />
         </b-col>
       </b-row>
     </b-container>
 
-    <br>
+    <br><br>
+    <h4>年所得(萬元):{{ moneyValue }}</h4>
+    <b-container class="bv-example-row">
+      <b-row>
+        <!-- <b-col cols="1">{{ moneyValue }}</b-col> -->
+        <b-col cols="12">
+          <VueSlider
+            min="0"
+            max="200"
+            :marks="[0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]"
+            drag-on-click
+            :contained="true"
+            v-model="moneyValue"
+            @change="$emit('input', moneyValue)"
+          />
+        </b-col>
+      </b-row>
+    </b-container>
+
+
+    <br><br>
     <h4>設籍</h4>
     <b-form-select
       v-model="selected4"
@@ -83,11 +111,11 @@
 </template>
 
 <script>
-import AgeSlider from "@/components/AgeSlider.vue";
+// import AgeSlider from "@/components/AgeSlider.vue";
 
 export default {
   components: {
-    AgeSlider,
+    
   },
   data() {
     return {
@@ -113,10 +141,11 @@ export default {
       ],
       selected4: null,
       area: [
-        { value: null, text: "請選擇你的戶籍地" },
-        { value: "taipei", text: "台北市" },
-        { value: "hsinchu", text: "新竹市" },
-        { value: "kaohsiung", text: "高雄市" },
+        { text: "請選擇你的戶籍地", value: null  },
+        { text: "桃園市", value: "taoyuan" },
+        { text: "台中市", value: "taizhong" },
+        { text: "台南市", value: "tainan" },
+        { text: "屏東市", value: "pingtung" },
       ],
     };
   },
@@ -129,7 +158,8 @@ export default {
     },
   },
   props: {
-    value: Number,
+    ageValue: Number,
+    moneyValue: Number,
   },
 };
 </script>

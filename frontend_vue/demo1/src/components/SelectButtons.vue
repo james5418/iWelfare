@@ -76,7 +76,8 @@
       </b-row>
     </b-container>
 
-    <br><br>
+    <br>
+    <br>
     <h4>年所得(萬元):{{ moneyValue }}</h4>
     <b-container class="bv-example-row">
       <b-row>
@@ -96,7 +97,8 @@
     </b-container>
 
 
-    <br><br>
+    <br>
+    <br>
     <h4>設籍</h4>
     <b-form-select
       v-model="selected4"

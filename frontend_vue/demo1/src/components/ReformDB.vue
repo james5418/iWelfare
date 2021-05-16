@@ -10,11 +10,16 @@ export default {
   props: {
     msg: String,
   },
-  data() {
-    return {
-      input_tags: ["風災", "住宅", "台中"],
-    };
-  },
+  // data() {
+  //   return {
+  //     input_tags: ["風災", "住宅", "台中"],
+  //     text_type: "",
+  //     text_identity: "",
+  //     text_house: "",
+  //     text_age_lb: "",
+  //     text_age_hb: "",
+  //   };
+  // },
 };
 </script>
 

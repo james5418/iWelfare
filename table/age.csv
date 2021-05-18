@@ -1,4 +1,4 @@
-id,age_lower,age_upper
+id,low-income,low_and_middle-income
 1,NULL,NULL
 2,NULL,NULL
 3,NULL,NULL

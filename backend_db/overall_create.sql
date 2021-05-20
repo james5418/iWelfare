@@ -11,3 +11,10 @@ CREATE TABLE overall(
 	notice text,
 	PRIMARY KEY(id)
 );
+
+load data local infile './overall.csv'
+into table overall
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 lines;

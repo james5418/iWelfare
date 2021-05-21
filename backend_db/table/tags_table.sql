@@ -1,12 +1,12 @@
-CREATE TABLE tags(
+create table tags(
 	tag_id int NOT NULL,
 	tag text,
 	PRIMARY KEY(tag_id)
 );
 
-LOAD DATA LOCAL INFILE './tags.csv'
-into TABLE tags
-FIELDS TERMINATED by ','
-ENCLOSED by '"'
-LINES TERMINATED by '\n'
-IGNORE 1 LINES;
+load data local infile './tags.csv'
+into table tags
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 lines;

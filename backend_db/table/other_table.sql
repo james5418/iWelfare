@@ -1,4 +1,4 @@
-CREATE TABLE other(
+create table other(
 	welfare_id int NOT NULL,
 	tag1 varchar(5),
 	tag2 varchar(5),
@@ -50,9 +50,9 @@ CREATE TABLE other(
 	PRIMARY KEY(welfare_id)
 );
 
-LOAD DATA LOCAL INFILE './other.csv'
-into TABLE other
-FIELDS TERMINATED by ','
-ENCLOSED by '"'
-LINES TERMINATED by '\n'
-IGNORE 1 LINES;
+load data local infile './other.csv'
+into table other
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 lines;

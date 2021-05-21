@@ -1,19 +1,19 @@
-CREATE TABLE age(
+create table age(
 	welfare_id int NOT NULL,
 	age_lower int,
 	age_upper int,
 	PRIMARY KEY(welfare_id)
 );
 
-LOAD DATA LOCAL INFILE './age.csv'
-into TABLE age
-FIELDS TERMINATED by ','
-ENCLOSED by '"'
-LINES TERMINATED by '\n'
-IGNORE 1 LINES;
+load data local infile './age.csv'
+into table age
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 lines;
 
 
-CREATE TABLE other(
+create table other(
 	welfare_id int NOT NULL,
 	tag1 varchar(5),
 	tag2 varchar(5),
@@ -65,37 +65,37 @@ CREATE TABLE other(
 	PRIMARY KEY(welfare_id)
 );
 
-LOAD DATA LOCAL INFILE './other.csv'
-into TABLE other
-FIELDS TERMINATED by ','
-ENCLOSED by '"'
-LINES TERMINATED by '\n'
-IGNORE 1 LINES;
+load data local infile './other.csv'
+into table other
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 lines;
 
 
-CREATE TABLE region(
+create table region(
 	welfare_id int NOT NULL,
 	city text,
 	PRIMARY KEY(welfare_id)
 );
 
-LOAD DATA LOCAL INFILE './region.csv'
-into TABLE region
-FIELDS TERMINATED by ','
-ENCLOSED by '"'
-LINES TERMINATED by '\n'
-IGNORE 1 LINES;
+load data local infile './region.csv'
+into table region
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 lines;
 
 
-CREATE TABLE tags(
+create table tags(
 	tag_id int NOT NULL,
 	tag text,
 	PRIMARY KEY(tag_id)
 );
 
-LOAD DATA LOCAL INFILE './tags.csv'
-into TABLE tags
-FIELDS TERMINATED by ','
-ENCLOSED by '"'
-LINES TERMINATED by '\n'
-IGNORE 1 LINES;
+load data local infile './tags.csv'
+into table tags
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 lines;

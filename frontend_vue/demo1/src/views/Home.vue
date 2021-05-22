@@ -1,15 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    {{ value }}
     <SearchBar />
-    <VueSlider
-      v-model="age"
-      :min="0"
-      :max="100"
-      :marks="[0, 20, 40, 60, 80, 100]"
-      :contained="true"
-    />
   </div>
 </template>
 
@@ -23,10 +15,5 @@ export default {
     SearchBar,
   },
   props: {},
-  data() {
-    return {
-      age: 18,
-    };
-  },
 };
 </script>

@@ -1,27 +1,30 @@
 <template>
   <b-container class="bv-example-row">
-    <b-input-group prepend="種類">
-      <b-form-input v-model="text_type" placeholder="照護"></b-form-input>
+    <b-input-group prepend="名稱">
+      <b-form-input
+        v-model="input_name"
+        placeholder="企業相關補助項目XXX..."
+      ></b-form-input>
     </b-input-group>
 
-    <b-input-group prepend="身份">
-      <b-form-input v-model="text_identity" placeholder="孕婦"></b-form-input>
-    </b-input-group>
-
-    <b-input-group prepend="設籍">
-      <b-form-input v-model="text_house" placeholder="台北"></b-form-input>
+    <b-input-group prepend="內容">
+      <b-form-input
+        v-model="input_text"
+        placeholder="bla bla bla bla bla bla bla bla"
+      ></b-form-input>
     </b-input-group>
 
     <b-input-group prepend="年齡">
-      <b-form-input v-model="text_age_lb" placeholder="0"></b-form-input>
-      <b-form-input v-model="text_age_hb" placeholder="100"></b-form-input>
+      <b-form-input v-model="input_age_lb" placeholder="0"></b-form-input>
+      <b-form-input v-model="input_age_hb" placeholder="100"></b-form-input>
     </b-input-group>
 
-    <b-button squared @click="add_db()"> 新增項目 </b-button>
-
-    <!-- <b-input-group prepend="所得">
-      <b-form-input v-model="text_type" placeholder="最高年齡"></b-form-input>
-    </b-input-group> -->
+    <b-input-group prepend="輸入條件">
+      <b-form-tags input-id="tags-basic" v-model="input_tags" />
+      <template #append>
+        <b-button @click="add_db()"> 新增項目 </b-button>
+      </template>
+    </b-input-group>
   </b-container>
 </template>
 
@@ -33,22 +36,20 @@ export default {
   },
   data() {
     return {
-      text_type: "",
-      text_identity: "",
-      text_house: "",
-      text_age_lb: "",
-      text_age_hb: "",
+      input_name: "",
+      input_text: "",
+      input_age_lb: "",
+      input_age_hb: "",
+      input_tags: [],
     };
   },
   methods: {
     add_db() {
-      const test_string =
-        this.text_type +
-        this.text_identity +
-        this.text_house +
-        this.text_age_lb +
-        this.text_age_hb;
-      console.log(test_string);
+      var tag_string = "";
+      this.input_tags.forEach(function (value) {
+        tag_string += " " + value;
+      });
+      console.log(tag_string);
     },
   },
 };

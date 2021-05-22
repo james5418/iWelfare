@@ -10,8 +10,11 @@ Vue.config.productionTip = false;
 
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/default.css";
-
 Vue.component("VueSlider", VueSlider);
+
+import axios from "axios";
+import VueAxios from "vue-axios";
+Vue.use(VueAxios, axios);
 
 new Vue({
   router,

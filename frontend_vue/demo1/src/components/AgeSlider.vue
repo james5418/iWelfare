@@ -4,7 +4,7 @@
       <!-- <b-col cols="1">年齡: {{ value }}</b-col> -->
       <b-col cols="12">
         <VueSlider
-          min="1"
+          min="0"
           max="100"
           :marks="[0, 20, 40, 60, 80, 100]"
           drag-on-click
@@ -23,6 +23,11 @@ export default {
   props: {
     value: Number,
   },
+  data(){
+    return {
+      value: 0,
+    }
+  }
 };
 </script>
 

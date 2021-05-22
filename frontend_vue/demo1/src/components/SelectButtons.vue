@@ -76,12 +76,11 @@
       </b-row>
     </b-container>
 
-    <br />
+    <!-- <br />
     <br />
     <h4>年所得(萬元):{{ moneyValue }}</h4>
     <b-container class="bv-example-row">
       <b-row>
-        <!-- <b-col cols="1">{{ moneyValue }}</b-col> -->
         <b-col cols="12">
           <VueSlider
             :min="0"
@@ -94,7 +93,7 @@
           />
         </b-col>
       </b-row>
-    </b-container>
+    </b-container> -->
 
     <br />
     <br />
@@ -155,8 +154,7 @@ export default {
         { text: "其他", value: null },
       ],
       ageValue: 0,
-      moneyValue: 0,
-      Tag: null,
+      // moneyValue: 0,
     };
   },
   computed: {
@@ -185,9 +183,7 @@ export default {
         }
       }
 
-      tag += this.ageValue;
-      tag += " ";
-      tag += this.moneyValue;
+      tag += "age=" + this.ageValue;
       tag += " ";
 
       if (this.selected4 != null) {

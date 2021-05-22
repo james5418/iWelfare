@@ -145,7 +145,7 @@ export default {
       // ],
       selected4: null,
       area: [
-        { text: "請選擇你的戶籍地", value: null },
+        { text: "請選擇你的戶籍地", value: null, disabled: true },
         { text: "新北市", value: "新北市" },
         { text: "桃園市", value: "桃園市" },
         { text: "台中市", value: "台中市" },

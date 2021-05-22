@@ -62,6 +62,14 @@ create table other(
 	tag45 varchar(5),
 	tag46 varchar(5),
 	tag47 varchar(5),
+	tag48 varchar(5),
+	tag49 varchar(5),
+	tag50 varchar(5),
+	tag51 varchar(5),
+	tag52 varchar(5),
+	tag53 varchar(5),
+	tag54 varchar(5),
+	tag55 varchar(5),
 	PRIMARY KEY(welfare_id)
 );
 

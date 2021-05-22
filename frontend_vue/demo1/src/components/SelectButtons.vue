@@ -76,8 +76,8 @@
       </b-row>
     </b-container>
 
-    <br>
-    <br>
+    <br />
+    <br />
     <h4>年所得(萬元):{{ moneyValue }}</h4>
     <b-container class="bv-example-row">
       <b-row>
@@ -96,9 +96,8 @@
       </b-row>
     </b-container>
 
-
-    <br>
-    <br>
+    <br />
+    <br />
     <h4>設籍</h4>
     <b-form-select
       v-model="selected4"
@@ -109,6 +108,11 @@
     <div class="mt-3">
       Selected: <strong>{{ selected4 }}</strong>
     </div>
+
+    <br />
+    <div>
+      <b-button>Search</b-button>
+    </div>
   </div>
 </template>
 
@@ -116,9 +120,7 @@
 // import AgeSlider from "@/components/AgeSlider.vue";
 
 export default {
-  components: {
-    
-  },
+  components: {},
   data() {
     return {
       button1: [
@@ -144,13 +146,13 @@ export default {
       // ],
       selected4: null,
       area: [
-        { text: "請選擇你的戶籍地", value: null  },
+        { text: "請選擇你的戶籍地", value: null },
         { text: "新北市", value: "新北市" },
         { text: "桃園市", value: "桃園市" },
         { text: "台中市", value: "台中市" },
         { text: "台南市", value: "台南市" },
         { text: "屏東縣", value: "屏東縣" },
-        { text: "其他", value: null  },
+        { text: "其他", value: null },
       ],
     };
   },

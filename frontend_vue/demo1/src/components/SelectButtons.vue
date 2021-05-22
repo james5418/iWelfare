@@ -64,8 +64,8 @@
         <!-- <b-col cols="1">{{ ageValue }}</b-col> -->
         <b-col cols="12">
           <VueSlider
-            min="0"
-            max="100"
+            :min="0"
+            :max="100"
             :marks="[0, 20, 40, 60, 80, 100]"
             drag-on-click
             :contained="true"
@@ -84,8 +84,8 @@
         <!-- <b-col cols="1">{{ moneyValue }}</b-col> -->
         <b-col cols="12">
           <VueSlider
-            min="0"
-            max="200"
+            :min="0"
+            :max="200"
             :marks="[0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]"
             drag-on-click
             :contained="true"
@@ -111,7 +111,7 @@
 
     <br />
     <div>
-      <b-button>Search</b-button>
+      <b-button @click="collectTag()">Search</b-button>
     </div>
   </div>
 </template>
@@ -154,6 +154,9 @@ export default {
         { text: "屏東縣", value: "屏東縣" },
         { text: "其他", value: null },
       ],
+      ageValue: 0,
+      moneyValue: 0,
+      Tag: null,
     };
   },
   computed: {
@@ -164,9 +167,36 @@ export default {
       return this.button2.map((btn) => btn.state);
     },
   },
-  props: {
-    ageValue: Number,
-    moneyValue: Number,
+
+  methods: {
+    collectTag() {
+      var tag = "";
+
+      for (var i = 0; i < 4; i++) {
+        if (this.button1[i]["state"]) {
+          tag += this.button1[i]["caption"];
+          tag += " ";
+        }
+      }
+      for (i = 0; i < 5; i++) {
+        if (this.button2[i]["state"]) {
+          tag += this.button2[i]["caption"];
+          tag += " ";
+        }
+      }
+
+      tag += this.ageValue;
+      tag += " ";
+      tag += this.moneyValue;
+      tag += " ";
+
+      if (this.selected4 != null) {
+        tag += this.selected4;
+        tag += " ";
+      }
+
+      console.log(tag);
+    },
   },
 };
 </script>

@@ -4,7 +4,7 @@
     <b-input-group prepend="輸入條件">
       <b-form-tags input-id="tags-basic" v-model="input_tags" />
       <template #append>
-        <b-button @click="search_tag()"> 搜尋 </b-button>
+        <b-button @click="search_tag(input_tags)"> 搜尋 </b-button>
       </template>
     </b-input-group>
 
@@ -39,14 +39,32 @@ export default {
   },
   data() {
     return {
-      input_tags: ["風災", "住宅", "台中"],
+      input_tags: ["生育", "孕婦", "中低收入戶"],
       age: 18,
       visible: true,
     };
   },
   methods: {
-    search_tag() {
-      console.log(this.input_tags);
+    async search_tag(tags) {
+      //console.log(this.input_tags);
+      var qstr =
+        "SELECT welfare_id FROM ( SELECT welfare_id, COUNT(*) as cnt FROM ( SELECT welfare_id, tag FROM corresponding as c JOIN tags as t ON c.tag_id = t.tag_id )as n WHERE ";
+      //var qstr = "hello";
+      for (var i = 0; i < tags.length; ++i) {
+        qstr += "(n.tag = '" + tags[i] + "')";
+        if (i != tags.length - 1) qstr += " OR ";
+      }
+      qstr += " GROUP BY welfare_id) as x WHERE cnt = " + tags.length;
+      console.log(qstr);
+      const val = await this.axios
+        .post("/mysql", {
+          query: qstr,
+        })
+        .then(function (response) {
+          return response.data;
+        });
+
+      console.log(val);
     },
   },
 };

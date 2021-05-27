@@ -1,5 +1,38 @@
 <template>
   <div>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@2.7.1/dist/style.css"
+    />
+
+    <b-input-group size="lg" prepend="輸入條件">
+      <div class="input-group-btn">
+        <tags-input
+          element-id="tags"
+          v-model="selectedTags"
+          placeholder="enter here"
+          :existing-tags="[
+            { id: 1, name: 'Web Development' },
+            { id: 2, name: 'PHP' },
+            { id: 3, name: 'JavaScript' },
+            { id: 4, name: 'HELLO' },
+          ]"
+          only-existing-tags
+          typeahead-hide-discard
+          typeahead
+          typeahead-style="dropdown"
+          typeahead-show-on-focus
+          id-field="id"
+          text-field="name"
+          limit="10"
+        />
+      </div>
+      <template #append>
+        <b-button @click="search_tag(input_tags)"> 搜尋 </b-button>
+      </template>
+    </b-input-group>
+
+    <b-button @click="search_tag(input_tags)"> 搜尋 </b-button>
     <!-- <label for="tags-basic"></label> -->
     <b-input-group prepend="輸入條件">
       <b-form-tags input-id="tags-basic" v-model="input_tags" />
@@ -40,6 +73,7 @@ export default {
   data() {
     return {
       input_tags: ["生育", "孕婦", "中低收入戶"],
+      selectedTags: ["HELLO"],
       age: 18,
       visible: true,
     };
@@ -85,5 +119,10 @@ li {
 }
 a {
   color: #42b983;
+}
+.tags-input {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: right;
 }
 </style>

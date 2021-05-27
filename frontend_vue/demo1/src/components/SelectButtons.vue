@@ -11,9 +11,9 @@
         {{ btn.caption }}
       </b-button>
     </b-button-group>
-    <p>
+    <!-- <p>
       Pressed States: <strong>{{ btnStates1 }}</strong>
-    </p>
+    </p> -->
 
     <h4>身份別</h4>
     <b-button-group size="lg">
@@ -26,42 +26,13 @@
         {{ btn.caption }}
       </b-button>
     </b-button-group>
-    <p>
+    <!-- <p>
       Pressed States: <strong>{{ btnStates2 }}</strong>
-    </p>
-
-    <!-- <h4>性別</h4>
-    <b-form-group v-slot="{ ariaDescribedby }">
-      <b-form-radio-group
-        id="btn-radios-2"
-        v-model="selected2"
-        :options="gender"
-        :aria-describedby="ariaDescribedby"
-        button-variant="outline-primary"
-        size="lg"
-        name="radio-btn-outline"
-        buttons
-      ></b-form-radio-group>
-    </b-form-group> -->
-
-    <!-- <h4>居住國內滿183天</h4>
-    <b-form-group v-slot="{ ariaDescribedby }">
-      <b-form-radio-group
-        id="btn-radios-3"
-        v-model="selected3"
-        :options="live"
-        :aria-describedby="ariaDescribedby"
-        button-variant="outline-warning"
-        size="lg"
-        name="radio-btn-outline"
-        buttons
-      ></b-form-radio-group>
-    </b-form-group> -->
+    </p> -->
 
     <h4>年齡:{{ ageValue }}</h4>
     <b-container class="bv-example-row">
       <b-row>
-        <!-- <b-col cols="1">{{ ageValue }}</b-col> -->
         <b-col cols="12">
           <VueSlider
             :min="0"
@@ -76,25 +47,6 @@
       </b-row>
     </b-container>
 
-    <!-- <br />
-    <br />
-    <h4>年所得(萬元):{{ moneyValue }}</h4>
-    <b-container class="bv-example-row">
-      <b-row>
-        <b-col cols="12">
-          <VueSlider
-            :min="0"
-            :max="200"
-            :marks="[0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]"
-            drag-on-click
-            :contained="true"
-            v-model="moneyValue"
-            @change="$emit('input', moneyValue)"
-          />
-        </b-col>
-      </b-row>
-    </b-container> -->
-
     <br />
     <br />
     <h4>設籍</h4>
@@ -104,20 +56,20 @@
       class="mt-3"
       style="width: 50%"
     ></b-form-select>
-    <div class="mt-3">
+    <!-- <div class="mt-3">
       Selected: <strong>{{ selected4 }}</strong>
-    </div>
+    </div> -->
 
     <br />
+    <br />
+    <br />
     <div>
-      <b-button @click="collectTag()">Search</b-button>
+      <b-button @click="search_tag()">搜尋</b-button>
     </div>
   </div>
 </template>
 
 <script>
-// import AgeSlider from "@/components/AgeSlider.vue";
-
 export default {
   components: {},
   data() {
@@ -135,14 +87,7 @@ export default {
         { caption: "老人", state: false },
         { caption: "重大疾病", state: false },
       ],
-      // gender: [
-      //   { text: "男性", value: "男性" },
-      //   { text: "女性", value: "女性" },
-      // ],
-      // live: [
-      //   { text: "是", value: "true" },
-      //   { text: "否", value: "false" },
-      // ],
+
       selected4: null,
       area: [
         { text: "請選擇你的戶籍地", value: null, disabled: true },
@@ -154,7 +99,6 @@ export default {
         { text: "其他", value: null },
       ],
       ageValue: 0,
-      // moneyValue: 0,
     };
   },
   computed: {
@@ -167,31 +111,46 @@ export default {
   },
 
   methods: {
-    collectTag() {
-      var tag = "";
+    async search_tag() {
+      var tags = [];
 
-      for (var i = 0; i < 4; i++) {
-        if (this.button1[i]["state"]) {
-          tag += this.button1[i]["caption"];
-          tag += " ";
+      for (var j = 0; j < 4; j++) {
+        if (this.button1[j]["state"]) {
+          tags.push(this.button1[j]["caption"]);
         }
       }
-      for (i = 0; i < 5; i++) {
-        if (this.button2[i]["state"]) {
-          tag += this.button2[i]["caption"];
-          tag += " ";
+      for (j = 0; j < 5; j++) {
+        if (this.button2[j]["state"]) {
+          tags.push(this.button2[j]["caption"]);
         }
       }
 
-      tag += "age=" + this.ageValue;
-      tag += " ";
+      //age
+      tags.push(this.ageValue);
 
       if (this.selected4 != null) {
-        tag += this.selected4;
-        tag += " ";
+        tags.push(this.selected4);
       }
 
-      console.log(tag);
+      //console.log(this.input_tags);
+      var qstr =
+        "SELECT welfare_id FROM ( SELECT welfare_id, COUNT(*) as cnt FROM ( SELECT welfare_id, tag FROM corresponding as c JOIN tags as t ON c.tag_id = t.tag_id )as n WHERE ";
+      //var qstr = "hello";
+      for (var i = 0; i < tags.length; ++i) {
+        qstr += "(n.tag = '" + tags[i] + "')";
+        if (i != tags.length - 1) qstr += " OR ";
+      }
+      qstr += " GROUP BY welfare_id) as x WHERE cnt = " + tags.length;
+      console.log(qstr);
+      const val = await this.axios
+        .post("/mysql", {
+          query: qstr,
+        })
+        .then(function (response) {
+          return response.data;
+        });
+
+      console.log(val);
     },
   },
 };

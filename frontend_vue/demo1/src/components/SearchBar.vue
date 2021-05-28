@@ -4,44 +4,28 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@2.7.1/dist/style.css"
     />
+    <ReturnList :msgs="msgs" />
+    <li v-for="m in msgs" :key="m.welfare_id">
+      {{ m }}
+    </li>
+    <tags-input
+      element-id="tags"
+      v-model="selectedTags"
+      placeholder="enter here"
+      :existing-tags="tags_data"
+      only-existing-tags
+      typeahead-hide-discard
+      typeahead
+      typeahead-style="dropdown"
+      typeahead-show-on-focus
+      id-field="tag_id"
+      text-field="tag"
+      :limit="10"
+    />
 
-    <b-input-group size="lg" prepend="輸入條件">
-      <div class="input-group-btn">
-        <tags-input
-          element-id="tags"
-          v-model="selectedTags"
-          placeholder="enter here"
-          :existing-tags="[
-            { id: 1, name: 'Web Development' },
-            { id: 2, name: 'PHP' },
-            { id: 3, name: 'JavaScript' },
-            { id: 4, name: 'HELLO' },
-          ]"
-          only-existing-tags
-          typeahead-hide-discard
-          typeahead
-          typeahead-style="dropdown"
-          typeahead-show-on-focus
-          id-field="id"
-          text-field="name"
-          limit="10"
-        />
-      </div>
-      <template #append>
-        <b-button @click="search_tag(input_tags)"> 搜尋 </b-button>
-      </template>
-    </b-input-group>
+    <b-button @click="search_tag(selectedTags, age)"> 搜尋 </b-button>
 
-    <b-button @click="search_tag(input_tags)"> 搜尋 </b-button>
-    <!-- <label for="tags-basic"></label> -->
-    <b-input-group prepend="輸入條件">
-      <b-form-tags input-id="tags-basic" v-model="input_tags" />
-      <template #append>
-        <b-button @click="search_tag(input_tags)"> 搜尋 </b-button>
-      </template>
-    </b-input-group>
-
-    <p class="mt-2">Input_tags: {{ input_tags }}</p>
+    <p class="mt-2">Input_tags: {{ selectedTags }}</p>
     <div>
       <b-button
         :class="visible ? null : 'collapsed'"
@@ -65,30 +49,55 @@
 </template>
 
 <script>
+import ReturnList from "@/components/ReturnList.vue";
+
 export default {
   name: "SearchBar",
-  props: {
-    msg: String,
+  components: {
+    ReturnList,
+  },
+  mounted() {
+    this.fetchData();
   },
   data() {
     return {
-      input_tags: ["生育", "孕婦", "中低收入戶"],
-      selectedTags: ["HELLO"],
+      selectedTags: [
+        { tag_id: 36, tag: "生育" },
+        { tag_id: 35, tag: "孕婦" },
+        { tag_id: 21, tag: "中低收入戶" },
+      ],
+      tags_data: [],
       age: 18,
       visible: true,
+      msgs: [],
     };
   },
   methods: {
-    async search_tag(tags) {
+    async fetchData() {
+      const val = await this.axios
+        .get("/backend/tags/?_size=100")
+        .then(function (response) {
+          return response.data;
+        });
+      //console.log(val);
+      this.tags_data = val;
+    },
+    async search_tag(tags, age) {
       //console.log(this.input_tags);
-      var qstr =
-        "SELECT welfare_id FROM ( SELECT welfare_id, COUNT(*) as cnt FROM ( SELECT welfare_id, tag FROM corresponding as c JOIN tags as t ON c.tag_id = t.tag_id )as n WHERE ";
+      var qstr = `SELECT welfare_id FROM ( SELECT welfare_id, COUNT(*) as cnt FROM ( `;
+      //age
+      qstr += `SELECT welfare_id FROM age WHERE (age_lower <= ${age}) AND (age_upper >= ${age}) UNION ALL `;
+      //tag
+      qstr += `SELECT welfare_id FROM corresponding as c JOIN tags as t ON c.tag_id = t.tag_id WHERE `;
       //var qstr = "hello";
       for (var i = 0; i < tags.length; ++i) {
-        qstr += "(n.tag = '" + tags[i] + "')";
-        if (i != tags.length - 1) qstr += " OR ";
+        qstr += `(tag = "${tags[i]["tag"]}") `;
+        if (i != tags.length - 1) qstr += "OR ";
       }
-      qstr += " GROUP BY welfare_id) as x WHERE cnt = " + tags.length;
+      console.log(age);
+      qstr += `) as x GROUP BY welfare_id HAVING cnt = ${
+        tags.length + 1
+      } ) as y`; //age + 1
       console.log(qstr);
       const val = await this.axios
         .post("/mysql", {
@@ -99,6 +108,7 @@ export default {
         });
 
       console.log(val);
+      this.msgs = val;
     },
   },
 };

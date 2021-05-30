@@ -16,6 +16,7 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
+            <b-nav-item to="/database">完善福利資料庫...</b-nav-item>
             <b-form-input
               size="sm"
               class="mr-sm-2"

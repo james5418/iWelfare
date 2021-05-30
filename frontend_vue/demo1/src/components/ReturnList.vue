@@ -9,11 +9,14 @@
       striped
       :fields="fields"
       :items="msgs"
-      @row-clicked="(item, index, event) => rowDblClickHandler(item)"
     >
+      <template #cell(name)="row">
+        <!-- `data.value` is the value after formatted by the Formatter -->
+        <a :href="`/overall/${row.item.welfare_id}`">{{ row.value }}</a>
+      </template>
       <template #cell(tags)="row">
         <li v-for="(value, key) in row.item.tags" :key="key">
-          <b-button variant="info" size="sm" @click="tag_query(value.tag_id)">
+          <b-button variant="info" size="sm" :href="`/tag/${value.tag_id}`">
             {{ value.tag }}
           </b-button>
         </li>
@@ -30,7 +33,6 @@ export default {
   },
   data() {
     return {
-      // Note `isActive` is left out and will not appear in the rendered table
       fields: [
         {
           key: "name",
@@ -44,10 +46,8 @@ export default {
     };
   },
   methods: {
-    rowDblClickHandler(item) {
-      console.log(item);
-    },
     tag_query(key) {
+      //this.$router.go(-1);
       console.log(key);
     },
   },
@@ -67,9 +67,7 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
-  color: #42b983;
-}
+
 .tags-input {
   display: flex;
   flex-wrap: wrap;

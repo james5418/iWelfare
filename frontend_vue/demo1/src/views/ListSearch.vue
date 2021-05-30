@@ -8,7 +8,6 @@
 <script>
 // @ is an alias to /src
 import SelectButtons from "@/components/SelectButtons.vue";
-
 export default {
   name: "ListSearch",
   components: {

@@ -8,12 +8,12 @@
       <!-- <li v-for="m in msgs" :key="m.welfare_id">
         <span @click="showMore(m)">{{ m }}</span>
       </li> -->
-      <b-card bg-variant="light" header="iWelfare 福利搜尋" class="text-center">
+      <b-card bg-variant="light" class="text-center">
         <b-card-text>
           <tags-input
             element-id="tags"
             v-model="selectedTags"
-            placeholder="enter here"
+            placeholder="在此輸入查詢標籤"
             :existing-tags="tags_data"
             only-existing-tags
             typeahead-hide-discard
@@ -24,6 +24,7 @@
             text-field="tag"
             :limit="10"
           />
+
           <b-collapse id="collapse-a" v-model="age_visible" class="mt-2">
             <b-form-checkbox v-model="age_enable">
               啟用年齡搜尋
@@ -42,7 +43,20 @@
               <br /><br />
             </b-collapse>
           </b-collapse>
-          <b-button @click="search_welfare(selectedTags, age)"> 搜尋 </b-button>
+
+          <b-dropdown
+            split
+            text="搜尋"
+            lazy
+            no-flip
+            boundary
+            @click="search_welfare(selectedTags, age)"
+            class="lg"
+          >
+            <b-dropdown-item v-for="(tag, key) in tags_data" :key="key">
+              <div @click="append_selected(tag)">{{ tag.tag }}</div>
+            </b-dropdown-item>
+          </b-dropdown>
           <b-button
             style="position: absolute; right: 1rem"
             variant="Light"
@@ -77,9 +91,8 @@ export default {
   data() {
     return {
       selectedTags: [
-        { tag_id: 36, tag: "生育" },
         { tag_id: 35, tag: "孕婦" },
-        { tag_id: 21, tag: "中低收入戶" },
+        { tag_id: 36, tag: "生育" },
       ],
       tags_data: [],
       age: 18,
@@ -93,14 +106,14 @@ export default {
   methods: {
     async fetchData() {
       const val = await this.axios
-        .get("/backend/tags/?_size=100")
+        .get("/backend/tags/?_size=500")
         .then(function (response) {
           return response.data;
         });
       //console.log(val);
       this.tags_data = val;
     },
-    async search_tag(wid) {
+    async search_tags(wid) {
       const qstr = `SELECT t.tag_id, tag FROM ( SELECT tag_id FROM corresponding WHERE welfare_id = ${wid} ) as c INNER JOIN tags t ON t.tag_id = c.tag_id ORDER BY c.tag_id`;
       const val = await this.axios
         .post("/mysql", {
@@ -141,7 +154,7 @@ export default {
       //console.log(val);
       var arr = [];
       for (i = 0; i < val.length; ++i) {
-        var got_tags = await this.search_tag(val[i]["welfare_id"]);
+        const got_tags = await this.search_tags(val[i]["welfare_id"]);
         //console.log(got_tags);
         arr.push({
           welfare_id: val[i]["welfare_id"],
@@ -154,8 +167,8 @@ export default {
       this.search_cnt = arr.length;
       this.table_visible = true;
     },
-    showMore(m) {
-      console.log(m);
+    append_selected(tag) {
+      this.selectedTags.push(tag);
     },
   },
 };
@@ -174,9 +187,7 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
-  color: #42b983;
-}
+
 .tags-input {
   display: flex;
   flex-wrap: wrap;

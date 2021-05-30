@@ -1,50 +1,65 @@
 <template>
   <div>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@2.7.1/dist/style.css"
-    />
-    <ReturnList :msgs="msgs" />
-    <li v-for="m in msgs" :key="m.welfare_id">
-      <span @click="showMore(m)">{{ m }}</span>
-    </li>
-    <tags-input
-      element-id="tags"
-      v-model="selectedTags"
-      placeholder="enter here"
-      :existing-tags="tags_data"
-      only-existing-tags
-      typeahead-hide-discard
-      typeahead
-      typeahead-style="dropdown"
-      typeahead-show-on-focus
-      id-field="tag_id"
-      text-field="tag"
-      :limit="10"
-    />
+    <b-container fluid>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@2.7.1/dist/style.css"
+      />
+      <!-- <li v-for="m in msgs" :key="m.welfare_id">
+        <span @click="showMore(m)">{{ m }}</span>
+      </li> -->
+      <b-card bg-variant="light" header="iWelfare 福利搜尋" class="text-center">
+        <b-card-text>
+          <tags-input
+            element-id="tags"
+            v-model="selectedTags"
+            placeholder="enter here"
+            :existing-tags="tags_data"
+            only-existing-tags
+            typeahead-hide-discard
+            typeahead
+            typeahead-style="dropdown"
+            typeahead-show-on-focus
+            id-field="tag_id"
+            text-field="tag"
+            :limit="10"
+          />
+          <b-collapse id="collapse-a" v-model="age_visible" class="mt-2">
+            <b-form-checkbox v-model="age_enable">
+              啟用年齡搜尋
+            </b-form-checkbox>
+            <b-collapse id="collapse-t" v-model="age_enable" class="mt-2">
+              <b-col>
+                <div>年齡：</div>
+                <VueSlider
+                  v-model="age"
+                  :min="0"
+                  :max="100"
+                  :marks="[0, 20, 40, 60, 80, 100]"
+                  :contained="true"
+                />
+              </b-col>
+              <br /><br />
+            </b-collapse>
+          </b-collapse>
+          <b-button @click="search_welfare(selectedTags, age)"> 搜尋 </b-button>
+          <b-button
+            style="position: absolute; right: 1rem"
+            variant="Light"
+            @click="age_visible = !age_visible"
+          >
+            進階選項
+          </b-button>
+        </b-card-text>
+      </b-card>
 
-    <b-button @click="search_welfare(selectedTags, age)"> 搜尋 </b-button>
-
-    <p class="mt-2">Input_tags: {{ selectedTags }}</p>
-    <div>
-      <b-button
-        :class="visible ? null : 'collapsed'"
-        :aria-expanded="visible ? 'true' : 'false'"
-        aria-controls="collapse-4"
-        @click="visible = !visible"
-      >
-        Toggle Collapse
-      </b-button>
-      <b-collapse id="collapse-4" v-model="visible" class="mt-2">
-        <VueSlider
-          v-model="age"
-          :min="0"
-          :max="100"
-          :marks="[0, 20, 40, 60, 80, 100]"
-          :contained="true"
-        />
-      </b-collapse>
-    </div>
+      <div>
+        <b-collapse id="collapse-t" v-model="table_visible" class="mt-2">
+          <div style="right: 5rem">一共 {{ search_cnt }} 筆搜尋結果</div>
+          <ReturnList :msgs="msgs" />
+        </b-collapse>
+      </div>
+    </b-container>
   </div>
 </template>
 
@@ -68,8 +83,11 @@ export default {
       ],
       tags_data: [],
       age: 18,
-      visible: true,
+      age_enable: false,
+      age_visible: false,
+      table_visible: false,
       msgs: [],
+      search_cnt: 0,
     };
   },
   methods: {
@@ -83,7 +101,7 @@ export default {
       this.tags_data = val;
     },
     async search_tag(wid) {
-      const qstr = `SELECT tag FROM ( SELECT tag_id FROM corresponding WHERE welfare_id = ${wid} ) as c INNER JOIN tags t ON t.tag_id = c.tag_id`;
+      const qstr = `SELECT t.tag_id, tag FROM ( SELECT tag_id FROM corresponding WHERE welfare_id = ${wid} ) as c INNER JOIN tags t ON t.tag_id = c.tag_id ORDER BY c.tag_id`;
       const val = await this.axios
         .post("/mysql", {
           query: qstr,
@@ -91,24 +109,25 @@ export default {
         .then(function (response) {
           return response.data;
         });
-      var tag_arr = [];
-      for (var i = 0; i < val.length; ++i) {
-        tag_arr.push(val[i]["tag"]);
-      }
-      console.log(tag_arr);
-      return tag_arr;
+      // var tag_arr = [];
+      // for (var i = 0; i < val.length; ++i) {
+      //   tag_arr.push(val[i]["tag"]);
+      // }
+      //console.log(tag_arr);
+      return val;
     },
     async search_welfare(tags, age) {
       //console.log(this.input_tags);
       var qstr = `SELECT o.welfare_id , name FROM ( SELECT welfare_id, COUNT(*) as cnt FROM ( `;
-      qstr += `SELECT welfare_id FROM age WHERE (age_lower <= ${age}) AND (age_upper >= ${age}) UNION ALL `; //age
+      if (this.age_enable)
+        qstr += `SELECT welfare_id FROM age WHERE (age_lower <= ${age}) AND (age_upper >= ${age}) UNION ALL `; //age
       qstr += `SELECT welfare_id FROM corresponding as c JOIN tags as t ON c.tag_id = t.tag_id WHERE `; //tag
 
       for (var i = 0; i < tags.length; ++i) {
         qstr += `(tag = "${tags[i]["tag"]}") `;
         if (i != tags.length - 1) qstr += "OR ";
       }
-      const tag_cnt = tags.length + 1; //age + 1
+      const tag_cnt = tags.length + this.age_enable; //age + 1
       qstr += `) as x GROUP BY welfare_id HAVING cnt = ${tag_cnt} ) as y INNER JOIN overall o ON o.welfare_id = y.welfare_id`;
       //console.log(qstr);
       const val = await this.axios
@@ -123,16 +142,17 @@ export default {
       var arr = [];
       for (i = 0; i < val.length; ++i) {
         var got_tags = await this.search_tag(val[i]["welfare_id"]);
-        console.log(got_tags);
+        //console.log(got_tags);
         arr.push({
           welfare_id: val[i]["welfare_id"],
           name: val[i]["name"],
           tags: got_tags,
         });
       }
-      console.log(arr);
+      //console.log(arr);
       this.msgs = arr;
-      //console.log(this.fields);
+      this.search_cnt = arr.length;
+      this.table_visible = true;
     },
     showMore(m) {
       console.log(m);

@@ -1,14 +1,24 @@
 <template>
-  <div>
+  <div class="text-left">
     <b-table
+      text-left="true"
       :style="{ backgroundColor: '#ffffff' }"
       head-variant="dark"
       foot-variant="white"
-      striped
       hover
+      striped
       :fields="fields"
       :items="msgs"
-    ></b-table>
+      @row-clicked="(item, index, event) => rowDblClickHandler(item)"
+    >
+      <template #cell(tags)="row">
+        <li v-for="(value, key) in row.item.tags" :key="key">
+          <b-button variant="info" size="sm" @click="tag_query(value.tag_id)">
+            {{ value.tag }}
+          </b-button>
+        </li>
+      </template>
+    </b-table>
   </div>
 </template>
 
@@ -23,24 +33,22 @@ export default {
       // Note `isActive` is left out and will not appear in the rendered table
       fields: [
         {
-          key: "welfare_id",
-          sortable: true,
-        },
-        {
           key: "name",
-          sortable: true,
+          label: "福利項目名稱",
         },
         {
           key: "tags",
-          sortable: true,
+          label: "福利項目標籤",
         },
       ],
     };
   },
   methods: {
-    async gotList(msgs) {
-      const keys = msgs.keys();
-      console.log(keys);
+    rowDblClickHandler(item) {
+      console.log(item);
+    },
+    tag_query(key) {
+      console.log(key);
     },
   },
 };

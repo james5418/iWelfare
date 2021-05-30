@@ -23,16 +23,26 @@ export default {
       // Note `isActive` is left out and will not appear in the rendered table
       fields: [
         {
-          key: "name",
+          key: "welfare_id",
+          sortable: true,
         },
         {
-          key: "score",
+          key: "name",
+          sortable: true,
+        },
+        {
+          key: "tags",
           sortable: true,
         },
       ],
     };
   },
-  methods: {},
+  methods: {
+    async gotList(msgs) {
+      const keys = msgs.keys();
+      console.log(keys);
+    },
+  },
 };
 </script>
 

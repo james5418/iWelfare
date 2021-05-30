@@ -15,15 +15,6 @@ export default {
     SearchBar,
   },
   props: {},
-  methods: {
-    async fetchData() {
-      const val = await this.axios
-        .get("/backend/age" + this.group_id + "/")
-        .then(function (response) {
-          return response.data;
-        });
-      this.group = val;
-    },
-  },
+  methods: {},
 };
 </script>

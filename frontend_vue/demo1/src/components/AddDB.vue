@@ -1,5 +1,6 @@
 <template>
   <b-container class="bv-example-row">
+    <h3>add database</h3>
     <b-input-group prepend="名稱">
       <b-form-input
         v-model="input_name"

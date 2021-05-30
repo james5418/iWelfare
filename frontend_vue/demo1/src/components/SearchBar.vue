@@ -22,6 +22,7 @@
             typeahead-show-on-focus
             id-field="tag_id"
             text-field="tag"
+            ref="container"
             :limit="10"
           />
 
@@ -134,10 +135,10 @@ export default {
       var qstr = `SELECT o.welfare_id , name FROM ( SELECT welfare_id, COUNT(*) as cnt FROM ( `;
       if (this.age_enable)
         qstr += `SELECT welfare_id FROM age WHERE (age_lower <= ${age}) AND (age_upper >= ${age}) UNION ALL `; //age
-      qstr += `SELECT welfare_id FROM corresponding as c JOIN tags as t ON c.tag_id = t.tag_id WHERE `; //tag
+      qstr += `SELECT welfare_id FROM corresponding WHERE `; //tag
 
       for (var i = 0; i < tags.length; ++i) {
-        qstr += `(tag = "${tags[i]["tag"]}") `;
+        qstr += `(tag_id = "${tags[i]["tag_id"]}") `;
         if (i != tags.length - 1) qstr += "OR ";
       }
       const tag_cnt = tags.length + this.age_enable; //age + 1
@@ -166,9 +167,11 @@ export default {
       this.msgs = arr;
       this.search_cnt = arr.length;
       this.table_visible = true;
+      const element = this.$refs["container"];
+      console.log(element.$el.offsetTop);
       setTimeout(function(){
         window.scrollTo({
-          top: 700,
+          top: element.$el.offsetTop,
           behavior: "smooth"
         });
       },250);

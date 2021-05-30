@@ -1,7 +1,10 @@
 <template>
   <div class="Overall">
     <div class="text-left">
+      
       <b-container fluid>
+        <h1><b-icon icon="list" animation="fade" font-scale="1"></b-icon> {{ w_name }}</h1>
+        <hr/>
         <b-table
           size="lg"
           thead-class="d-none"
@@ -29,7 +32,7 @@
                 <b-button
                   variant="info"
                   size="sm"
-                  @click="tag_query(value.tag_id)"
+                  :href="`/tag/${value.tag_id}`"
                 >
                   {{ value.tag }}
                 </b-button>
@@ -52,6 +55,7 @@ export default {
   data() {
     return {
       wid: this.$route.params.id,
+      w_name: "",
       w_data: [],
       fields: [
         {
@@ -95,6 +99,7 @@ export default {
       arr.push({ name: "辦理應備證件", value: val[0]["document_needed"] });
       arr.push({ name: "注意事項", value: val[0]["notice"] });
       this.w_data = arr;
+      this.w_name = val[0]["name"];
     },
   },
 };

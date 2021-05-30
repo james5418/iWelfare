@@ -8,7 +8,7 @@
       <!-- <li v-for="m in msgs" :key="m.welfare_id">
         <span @click="showMore(m)">{{ m }}</span>
       </li> -->
-      <b-card bg-variant="light" class="text-center">
+      <b-card bg-variant="light" img-src="/logo.png" class="text-center">
         <b-card-text>
           <tags-input
             element-id="tags"
@@ -166,6 +166,12 @@ export default {
       this.msgs = arr;
       this.search_cnt = arr.length;
       this.table_visible = true;
+      setTimeout(function(){
+        window.scrollTo({
+          top: 700,
+          behavior: "smooth"
+        });
+      },250);
     },
     append_selected(tag) {
       this.selectedTags.push(tag);

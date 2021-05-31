@@ -46,7 +46,6 @@
             class="lg"
             lazy
             split
-            no-flip
             boundary
             @click="search_welfare(selectedTags, age)"
           >

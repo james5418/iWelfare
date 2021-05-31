@@ -1,7 +1,7 @@
 <template>
   <div class="Tag">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <h2>與標籤 "{{ tag_name }}" 相關的補助: </h2>
+    <h2>與標籤 "{{ tag_name }}" 相關的補助:</h2>
     <b-collapse id="collapse-t" v-model="table_visible" class="mt-2">
       <div style="right: 5rem">一共 {{ search_cnt }} 筆搜尋結果</div>
       <ReturnList :msgs="msgs" />

@@ -12,7 +12,9 @@
     >
       <template #cell(name)="row">
         <!-- `data.value` is the value after formatted by the Formatter -->
-        <a :href="`/overall/${row.item.welfare_id}`">{{ row.value }}</a>
+        <h5>
+          <a :href="`/overall/${row.item.welfare_id}`">{{ row.value }}</a>
+        </h5>
       </template>
       <template #cell(tags)="row">
         <li v-for="(value, key) in row.item.tags" :key="key">

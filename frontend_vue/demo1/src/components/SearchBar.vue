@@ -1,10 +1,6 @@
 <template>
   <div>
     <b-container fluid>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@2.7.1/dist/style.css"
-      />
       <!-- <li v-for="m in msgs" :key="m.welfare_id">
         <span @click="showMore(m)">{{ m }}</span>
       </li> -->
@@ -23,7 +19,7 @@
             id-field="tag_id"
             text-field="tag"
             ref="container"
-            :limit="10"
+            :limit="8"
           />
 
           <b-collapse id="collapse-a" v-model="age_visible" class="mt-2">
@@ -46,13 +42,13 @@
           </b-collapse>
 
           <b-dropdown
-            split
             text="搜尋"
+            class="lg"
             lazy
+            split
             no-flip
             boundary
             @click="search_welfare(selectedTags, age)"
-            class="lg"
           >
             <b-dropdown-item v-for="(tag, key) in tags_data" :key="key">
               <div @click="append_selected(tag)">{{ tag.tag }}</div>
@@ -71,6 +67,7 @@
       <div>
         <b-collapse id="collapse-t" v-model="table_visible" class="mt-2">
           <div style="right: 5rem">一共 {{ search_cnt }} 筆搜尋結果</div>
+          <hr />
           <ReturnList :msgs="msgs" />
         </b-collapse>
       </div>
@@ -88,6 +85,9 @@ export default {
   },
   mounted() {
     this.fetchData();
+  },
+  watch: {
+    "$route.path": "this.fetchData",
   },
   data() {
     return {
@@ -131,6 +131,10 @@ export default {
       return val;
     },
     async search_welfare(tags, age) {
+      if (tags.length === 0) {
+        alert("請輸入標籤再進行搜尋！");
+        return;
+      }
       //console.log(this.input_tags);
       var qstr = `SELECT o.welfare_id , name FROM ( SELECT welfare_id, COUNT(*) as cnt FROM ( `;
       if (this.age_enable)
@@ -168,15 +172,19 @@ export default {
       this.search_cnt = arr.length;
       this.table_visible = true;
       const element = this.$refs["container"];
-      console.log(element.$el.offsetTop);
-      setTimeout(function(){
+      //console.log(element.$el.offsetTop);
+      setTimeout(function () {
         window.scrollTo({
           top: element.$el.offsetTop,
-          behavior: "smooth"
+          behavior: "smooth",
         });
-      },250);
+      }, 250);
     },
     append_selected(tag) {
+      if (this.selectedTags.includes(tag)) {
+        alert("請勿選擇重複的標籤！");
+        return;
+      }
       this.selectedTags.push(tag);
     },
   },

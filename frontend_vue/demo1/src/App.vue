@@ -1,6 +1,10 @@
 <template>
   <div id="app" align-v="center">
     <TopNavbar />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@2.7.1/dist/style.css"
+    />
     <br />
     <br />
     <router-view />

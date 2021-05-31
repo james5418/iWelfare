@@ -1,10 +1,12 @@
 <template>
   <div class="Overall">
     <div class="text-left">
-      
       <b-container fluid>
-        <h1><b-icon icon="list" animation="fade" font-scale="1"></b-icon> {{ w_name }}</h1>
-        <hr/>
+        <h1>
+          <b-icon icon="list" animation="fade" font-scale="1"></b-icon>
+          {{ w_name }}
+        </h1>
+        <hr />
         <b-table
           size="lg"
           thead-class="d-none"

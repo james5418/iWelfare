@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <!-- <img alt="Vue logo" src="/logo.png" /> -->
+    <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <SearchBar />
   </div>
 </template>
@@ -15,5 +16,6 @@ export default {
     SearchBar,
   },
   props: {},
+  methods: {},
 };
 </script>

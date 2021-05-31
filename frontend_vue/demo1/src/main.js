@@ -12,9 +12,15 @@ import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/default.css";
 Vue.component("VueSlider", VueSlider);
 
+import VoerroTagsInput from "@voerro/vue-tagsinput";
+Vue.component("tags-input", VoerroTagsInput);
+
 import axios from "axios";
 import VueAxios from "vue-axios";
 Vue.use(VueAxios, axios);
+
+import { BootstrapVueIcons } from "bootstrap-vue";
+Vue.use(BootstrapVueIcons);
 
 new Vue({
   router,

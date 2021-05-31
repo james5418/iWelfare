@@ -146,6 +146,10 @@ export default {
         alert("請勿選擇重複的標籤！");
         return;
       }
+      if (this.selectedTags.length >= 8) {
+        alert("達標籤上限！");
+        return;
+      }
       this.selectedTags.push(tag);
       console.log(this.selectedTags);
     },
@@ -254,7 +258,7 @@ export default {
           console.log(cor_msg);
         }
         //reset input
-        //this.reset_input();
+        this.reset_input();
       }
     },
   },

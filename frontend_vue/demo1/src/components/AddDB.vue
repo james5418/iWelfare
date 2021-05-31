@@ -1,6 +1,7 @@
 <template>
   <b-container class="bv-example-row">
     <h3>add database</h3>
+    <h3>{{ age_range[0] }} {{ age_range[1] }}</h3>
 
     <b-card bg-variant="light" class="text-center">
       <b-card-text>
@@ -77,7 +78,7 @@
           <b-col>
             <div>年齡：</div>
             <VueSlider
-              v-model="ages"
+              v-model="age_range"
               :min="0"
               :max="100"
               :marks="[0, 20, 40, 60, 80, 100]"
@@ -116,7 +117,7 @@ export default {
       input_criteria: "",
       input_doc: "",
       input_notice: "",
-      ages: [0, 100],
+      age_range: [0, 100],
       selectedTags: [],
       new_name: "",
       nameState: null,
@@ -195,6 +196,27 @@ export default {
             return response.data.insertId;
           });
         console.log(new_wid);
+
+        // adding wid age range to db
+        var age_l, age_h;
+        if (this.age_enable) {
+          age_l = this.age_range[0];
+          age_h = this.age_range[1];
+        } else {
+          age_l = -1;
+          age_h = 127;
+        }
+        console.log(age_l, age_h);
+        const age_msg = await this.axios
+          .post("/backend/age", {
+            welfare_id: new_wid,
+            age_lower: age_l,
+            age_upper: age_h,
+          })
+          .then(function (response) {
+            return response.data;
+          });
+        console.log(age_msg);
         // adding new tags to db
         var tag_arr = [];
         for (var i = 0; i < this.selectedTags.length; ++i) {
@@ -221,7 +243,7 @@ export default {
         console.log(tag_arr);
         // adding new correspondings to db
         for (i = 0; i < tag_arr.length; ++i) {
-          const msg = await this.axios
+          const cor_msg = await this.axios
             .post("/backend/corresponding", {
               welfare_id: new_wid,
               tag_id: tag_arr[i],
@@ -229,10 +251,10 @@ export default {
             .then(function (response) {
               return response.data;
             });
-          console.log(msg);
+          console.log(cor_msg);
         }
         //reset input
-        this.reset_input();
+        //this.reset_input();
       }
     },
   },

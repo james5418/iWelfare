@@ -1,29 +1,35 @@
 <template>
   <b-container class="bv-example-row">
     <b-card header="change text" bg-variant="light" class="text-center">
-      <b-card-text> 
-          <b-row >
-            <b-col fluid cols=4>
+      <b-card-text>
+        <b-row>
+          <b-col fluid cols="4">
             <b-input-group prepend="更改標籤">
-              <b-form-select v-model="selected" :options="tags_data" value-field="tag_id" text-field="tag">
+              <b-form-select
+                v-model="selected"
+                :options="tags_data"
+                value-field="tag_id"
+                text-field="tag"
+              >
                 <template #first>
-                  <b-form-select-option :value="null" disabled>-- 選擇要更改的標籤 --</b-form-select-option>
+                  <b-form-select-option :value="null" disabled
+                    >-- 選擇要更改的標籤 --</b-form-select-option
+                  >
                 </template>
               </b-form-select>
             </b-input-group>
-            </b-col>
-            <b-col cols=8>
+          </b-col>
+          <b-col cols="8">
             <b-input-group>
               <b-form-input
-                  v-model="input_name"
-                  placeholder="bla bla bla bla bla bla bla bla"
+                v-model="input_name"
+                placeholder="bla bla bla bla bla bla bla bla"
               ></b-form-input>
               <b-button @click="change_tag(input_name)"> 更改 </b-button>
             </b-input-group>
-            </b-col>
-          </b-row>
+          </b-col>
+        </b-row>
       </b-card-text>
-      
     </b-card>
   </b-container>
 </template>
@@ -64,8 +70,8 @@ export default {
 
     async change_tag(tag_name) {
       if (confirm("確認修改標籤名稱？")) {
-        if (this.input_name === ""){
-          alert("輸入不可為空！")
+        if (this.input_name === "") {
+          alert("輸入不可為空！");
           return;
         }
         const tag_msg = await this.axios

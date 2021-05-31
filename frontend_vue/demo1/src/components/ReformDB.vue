@@ -171,6 +171,7 @@ export default {
         }
         //reset input
         this.reset_input();
+        await this.fetchData();
       }
     },
   },

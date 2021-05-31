@@ -131,13 +131,6 @@ export default {
       //console.log(val);
       this.tags_data = val;
     },
-    add_db() {
-      var tag_string = "";
-      this.input_tags.forEach(function (value) {
-        tag_string += " " + value;
-      });
-      console.log(tag_string);
-    },
     append_selected(tag) {
       if (this.selectedTags.includes(tag)) {
         alert("請勿選擇重複的標籤！");

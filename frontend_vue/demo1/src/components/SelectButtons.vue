@@ -74,7 +74,6 @@
         <ReturnList :msgs="msgs" />
       </b-collapse>
     </div>
-
   </div>
 </template>
 
@@ -82,7 +81,7 @@
 import ReturnList from "@/components/ReturnList.vue";
 
 export default {
-  components: {ReturnList,},
+  components: { ReturnList },
   data() {
     return {
       button1: [
@@ -246,7 +245,6 @@ export default {
       this.search_cnt = arr.length;
       this.table_visible = true;
       //const element = this.$refs["container"];
-      
     },
   },
 };

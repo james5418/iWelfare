@@ -87,6 +87,7 @@ export default {
   },
   watch: {
     "$route.path": "this.fetchData",
+    msgs: "scrolltoTable"
   },
   data() {
     return {
@@ -139,7 +140,7 @@ export default {
       if (this.age_enable)
         qstr += `SELECT welfare_id FROM age WHERE (age_lower <= ${age}) AND (age_upper >= ${age}) UNION ALL `; //age
       qstr += `SELECT welfare_id FROM corresponding WHERE `; //tag
-
+      
       for (var i = 0; i < tags.length; ++i) {
         qstr += `(tag_id = "${tags[i]["tag_id"]}") `;
         if (i != tags.length - 1) qstr += "OR ";
@@ -155,6 +156,8 @@ export default {
           return response.data;
         });
 
+      this.search_cnt = val.length;
+      this.table_visible = true;
       //console.log(val);
       var arr = [];
       for (i = 0; i < val.length; ++i) {
@@ -168,16 +171,16 @@ export default {
       }
       //console.log(arr);
       this.msgs = arr;
-      this.search_cnt = arr.length;
-      this.table_visible = true;
-      const element = this.$refs["container"];
+      
+      //const element = this.$refs["container"];
       //console.log(element.$el.offsetTop);
-      setTimeout(function () {
-        window.scrollTo({
-          top: element.$el.offsetTop,
-          behavior: "smooth",
-        });
-      }, 250);
+      // setTimeout(function () {
+      //   window.scrollTo({
+      //     top: element.$el.offsetTop,
+      //     behavior: "smooth",
+      //   });
+      // }, 250);
+
     },
     append_selected(tag) {
       if (this.selectedTags.includes(tag)) {
@@ -186,6 +189,16 @@ export default {
       }
       this.selectedTags.push(tag);
     },
+    scrolltoTable() {
+      const element = this.$refs["container"];
+      console.log(element.$el.offsetTop);
+      setTimeout(function () {
+        window.scrollTo({
+          top: element.$el.offsetTop,
+          behavior: "smooth",
+        });
+      });
+    }
   },
 };
 </script>

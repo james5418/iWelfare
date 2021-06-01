@@ -1,5 +1,5 @@
 <template>
-  <div class="text-left">
+  <div class="text-left" ref="container2">
     <b-table
       text-left="true"
       :style="{ backgroundColor: '#ffffff' }"
@@ -33,6 +33,12 @@ export default {
   props: {
     msgs: Array,
   },
+  mounted() {
+    this.TBscroll();
+  },
+  watch: {
+    msgs: "TBscroll",
+  },
   data() {
     return {
       fields: [
@@ -52,6 +58,15 @@ export default {
       //this.$router.go(-1);
       console.log(key);
     },
+    TBscroll() {
+      setTimeout(function () {
+        const element = this.$refs["container"];
+        window.scrollTo({
+          top: element.$el.offsetTop,
+          behavior: "smooth",
+        });
+      });
+    }
   },
 };
 </script>

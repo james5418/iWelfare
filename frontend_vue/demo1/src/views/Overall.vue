@@ -51,7 +51,7 @@
 <script>
 export default {
   name: "Overall",
-  mounted() {
+  created() {
     this.fetchData(this.wid);
   },
   data() {

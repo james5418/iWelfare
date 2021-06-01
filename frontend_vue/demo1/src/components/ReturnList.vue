@@ -6,6 +6,7 @@
       head-variant="dark"
       foot-variant="white"
       hover
+      fixed
       striped
       :fields="fields"
       :items="msgs"
@@ -33,12 +34,6 @@ export default {
   props: {
     msgs: Array,
   },
-  created() {
-    this.TBscroll();
-  },
-  watch: {
-    msgs: "TBscroll",
-  },
   data() {
     return {
       fields: [
@@ -53,21 +48,7 @@ export default {
       ],
     };
   },
-  methods: {
-    tag_query(key) {
-      //this.$router.go(-1);
-      console.log(key);
-    },
-    TBscroll() {
-      setTimeout(function () {
-        const element = this.$refs["container"];
-        window.scrollTo({
-          top: element.$el.offsetTop,
-          behavior: "smooth",
-        });
-      });
-    },
-  },
+  methods: {},
 };
 </script>
 

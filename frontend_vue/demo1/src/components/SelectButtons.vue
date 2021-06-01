@@ -111,7 +111,7 @@ export default {
       ageValue: 0,
       msgs: [],
       search_cnt: 0,
-      table_visible: true,
+      table_visible: false,
     };
   },
   computed: {
@@ -230,6 +230,10 @@ export default {
           return response.data;
         });
       //console.log(val);
+
+      this.search_cnt = val.length;
+      this.table_visible = true;
+
       var arr = [];
       for (i = 0; i < val.length; ++i) {
         const got_tags = await this.search_tags(val[i]["welfare_id"]);
@@ -242,8 +246,8 @@ export default {
       }
       //console.log(arr);
       this.msgs = arr;
-      this.search_cnt = arr.length;
-      this.table_visible = true;
+      //this.search_cnt = arr.length;
+      //this.table_visible = true;
       //const element = this.$refs["container"];
     },
   },

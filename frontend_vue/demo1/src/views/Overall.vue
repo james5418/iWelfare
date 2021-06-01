@@ -39,6 +39,12 @@
                   {{ value.tag }}
                 </b-button>
               </li>
+              <b-button v-b-modal.addtag variant="info" size="sm">
+                <b-icon icon="plus"></b-icon>
+              </b-button>
+              <b-modal id="addtag" hide-footer lazy title="新增標籤">
+                <newTag :wid="wid" @reformed="reformed()" />
+              </b-modal>
             </div>
             <div v-else>{{ row.item.value }}</div>
           </template>
@@ -49,8 +55,12 @@
 </template>
 
 <script>
+import newTag from "@/components/newTag.vue";
 export default {
   name: "Overall",
+  components: {
+    newTag,
+  },
   created() {
     this.fetchData(this.wid);
   },
@@ -102,6 +112,10 @@ export default {
       arr.push({ name: "注意事項", value: val[0]["notice"] });
       this.w_data = arr;
       this.w_name = val[0]["name"];
+    },
+    async reformed() {
+      this.$bvModal.hide("addtag");
+      await this.fetchData(this.wid);
     },
   },
 };

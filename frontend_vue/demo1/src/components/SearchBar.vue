@@ -156,8 +156,6 @@ export default {
           return response.data;
         });
 
-      this.search_cnt = val.length;
-      this.table_visible = true;
       //console.log(val);
       var arr = [];
       for (i = 0; i < val.length; ++i) {
@@ -170,6 +168,8 @@ export default {
         });
       }
       //console.log(arr);
+      this.search_cnt = val.length;
+      this.table_visible = true;
       this.msgs = arr;
     },
     append_selected(tag) {
@@ -181,7 +181,7 @@ export default {
     },
     scrolltoTable() {
       const element = this.$refs["container"];
-      console.log(element.$el.offsetTop);
+      //console.log(element.$el.offsetTop);
       setTimeout(function () {
         window.scrollTo({
           top: element.$el.offsetTop,

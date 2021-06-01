@@ -81,7 +81,7 @@ export default {
   components: {
     ReturnList,
   },
-  mounted() {
+  created() {
     this.fetchData();
   },
   watch: {

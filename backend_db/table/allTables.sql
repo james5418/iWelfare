@@ -55,9 +55,7 @@ ignore 1 lines;
 
 create table corresponding(
 	welfare_id int NOT NULL,
-	tag_id int NOT NULL,
-	FOREIGN KEY(welfare_id) REFERENCES overall(welfare_id),
-	FOREIGN KEY(tag_id) REFERENCES tags(tag_id)
+	tag_id int NOT NULL
 );
 
 load data local infile './corresponding.csv'

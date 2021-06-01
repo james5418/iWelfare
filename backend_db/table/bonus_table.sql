@@ -9,6 +9,7 @@ create table bonus(
 	document text,
 	apply_method text,
 	deliver_method text,
+	processing_period text,
 	remark text,
 	PRIMARY KEY(id) 
 );

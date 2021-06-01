@@ -1,9 +1,8 @@
 <template>
   <div class="database">
     <img alt="Vue logo" src="../assets/logo.png" />
-
-    <AddDB />
     <ReformDB />
+    <AddDB />
     <ChangeTag />
   </div>
 </template>

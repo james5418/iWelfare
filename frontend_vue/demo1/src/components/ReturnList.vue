@@ -1,5 +1,5 @@
 <template>
-  <div class="text-left" ref="container2">
+  <div class="text-left">
     <b-table
       text-left="true"
       :style="{ backgroundColor: '#ffffff' }"
@@ -33,7 +33,7 @@ export default {
   props: {
     msgs: Array,
   },
-  mounted() {
+  created() {
     this.TBscroll();
   },
   watch: {
@@ -66,7 +66,7 @@ export default {
           behavior: "smooth",
         });
       });
-    }
+    },
   },
 };
 </script>

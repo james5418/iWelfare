@@ -1,6 +1,10 @@
 <template>
-  <b-container class="bv-example-row">
-    <b-card header="新增資料庫" bg-variant="light" class="text-center">
+  <b-container fluid class="bv-example-row">
+    <b-card
+      :header="mode === 'renew' ? '重建此筆資料' : '新增資料庫'"
+      bg-variant="light"
+      class="text-center"
+    >
       <b-card-text>
         <b-input-group prepend="相關標籤">
           <tags-input
@@ -32,43 +36,43 @@
         <b-input-group prepend="項目名稱">
           <b-form-input
             v-model="input_name"
-            placeholder="企業相關補助項目XXX..."
+            placeholder="在此輸入補助項目名稱"
           ></b-form-input>
         </b-input-group>
         <b-input-group prepend="補助項目">
           <b-form-input
             v-model="input_welfare"
-            placeholder="bla bla bla bla bla bla bla bla"
+            placeholder="在此輸入補助項目內容"
           ></b-form-input>
         </b-input-group>
         <b-input-group prepend="辦理機構">
           <b-form-input
             v-model="input_apply"
-            placeholder="bla bla bla bla bla bla bla bla"
+            placeholder="在此輸入辦理的機構"
           ></b-form-input>
         </b-input-group>
         <b-input-group prepend="聯絡方式">
           <b-form-input
             v-model="input_contact"
-            placeholder="bla bla bla bla bla bla bla bla"
+            placeholder="在此輸入機構聯絡方式"
           ></b-form-input>
         </b-input-group>
         <b-input-group prepend="申請條件">
           <b-form-input
             v-model="input_criteria"
-            placeholder="bla bla bla bla bla bla bla bla"
+            placeholder="在此輸入補助申請條件"
           ></b-form-input>
         </b-input-group>
         <b-input-group prepend="應備證件">
           <b-form-input
             v-model="input_doc"
-            placeholder="bla bla bla bla bla bla bla bla"
+            placeholder="在此輸入辦理應備證件"
           ></b-form-input>
         </b-input-group>
         <b-input-group prepend="注意事項">
           <b-form-input
             v-model="input_notice"
-            placeholder="bla bla bla bla bla bla bla bla"
+            placeholder="其他的注意事項..."
           ></b-form-input>
         </b-input-group>
         <b-collapse id="collapse-t" v-model="age_enable" class="mt-2">
@@ -85,7 +89,9 @@
           <br /><br />
         </b-collapse>
         <b-form-checkbox v-model="age_enable"> 申請年齡限制 </b-form-checkbox>
-        <b-button @click="add_welfare()"> 新增福利項目 </b-button>
+        <b-button @click="add_welfare()">
+          {{ mode === "renew" ? "完成重建" : "新增福利項目" }}
+        </b-button>
       </b-card-text>
     </b-card>
   </b-container>
@@ -95,7 +101,7 @@
 export default {
   name: "AddDB",
   props: {
-    msg: String,
+    mode: String,
   },
   mounted() {
     this.fetchData();
@@ -117,8 +123,6 @@ export default {
       age_range: [0, 100],
       selectedTags: [],
       new_name: "",
-      nameState: null,
-      invalid_text: "",
     };
   },
   methods: {
@@ -170,7 +174,9 @@ export default {
       else return true;
     },
     async add_welfare() {
-      if (confirm("確認新增福利項目？")) {
+      const conf =
+        this.mode === "renew" ? "確認重建此項目？" : "確認新增福利項目？";
+      if (confirm(conf)) {
         if (!this.validate_input()) {
           alert("輸入格式有誤！");
           return;
@@ -249,6 +255,7 @@ export default {
         }
         //reset input
         this.reset_input();
+        this.$emit("reformed");
       }
     },
   },

@@ -64,6 +64,8 @@ export default {
         .then(function (response) {
           return response.data;
         });
+      this.search_cnt = val.length;
+      this.table_visible = true;
 
       console.log(val);
       var arr = [];
@@ -78,8 +80,6 @@ export default {
       }
       //console.log(arr);
       this.msgs = arr;
-      this.search_cnt = arr.length;
-      this.table_visible = true;
     },
   },
 };

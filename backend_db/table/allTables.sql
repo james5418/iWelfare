@@ -2,7 +2,7 @@ DROP TABLE age;
 DROP TABLE corresponding;
 DROP TABLE tags;
 DROP TABLE overall;
-DROP TABLE bonus;
+
 
 create table overall(
 	welfare_id int NOT NULL AUTO_INCREMENT,

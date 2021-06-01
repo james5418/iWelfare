@@ -1,3 +1,5 @@
+DROP TABLE bonus;
+
 create table bonus(
 	id int NOT NULL AUTO_INCREMENT,
 	name text,

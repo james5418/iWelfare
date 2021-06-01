@@ -169,12 +169,12 @@ export default {
       this.table_visible = true;
       const element = this.$refs["container"];
       console.log(element.$el.offsetTop);
-      setTimeout(function(){
+      setTimeout(function () {
         window.scrollTo({
           top: element.$el.offsetTop,
-          behavior: "smooth"
+          behavior: "smooth",
         });
-      },250);
+      }, 250);
     },
     append_selected(tag) {
       this.selectedTags.push(tag);

@@ -1,5 +1,5 @@
 create table tags(
-	tag_id int NOT NULL,
+	tag_id int NOT NULL AUTO_INCREMENT,
 	tag text,
 	PRIMARY KEY(tag_id)
 );

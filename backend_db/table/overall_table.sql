@@ -1,5 +1,5 @@
 create table overall(
-	welfare_id int NOT NULL,
+	welfare_id int NOT NULL AUTO_INCREMENT,
 	name text,
 	welfare text,
 	application_agency text,

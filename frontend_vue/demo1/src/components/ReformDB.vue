@@ -3,6 +3,7 @@
     <b-card
       header="待重建項目"
       header-bg-variant="secondary"
+      header-text-variant="light"
       bg-variant="light"
       class="text-center"
     >

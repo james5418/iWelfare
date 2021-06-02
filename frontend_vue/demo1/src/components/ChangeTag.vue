@@ -3,6 +3,7 @@
     <b-card
       header="更改標籤名稱"
       header-bg-variant="secondary"
+      header-text-variant="light"
       bg-variant="light"
       class="text-center"
     >

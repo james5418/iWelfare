@@ -3,6 +3,7 @@
     <b-card
       :header="header_text"
       header-bg-variant="secondary"
+      header-text-variant="light"
       bg-variant="light"
       class="text-center"
     >
@@ -119,15 +120,15 @@ export default {
       this.input_notice = this.input_str.input_notice;
       this.age_range = this.input_str.age_range;
       this.selectedTags = this.input_str.selectedTags;
-      this.header_text = '修改此筆資料';
+      this.header_text = "修改此筆資料";
       this.button_text = "完成修改";
       this.confirm_text = "確認修改此項目？";
     } else if (this.mode === "renew") {
-      this.header_text = '重建此筆資料';
+      this.header_text = "重建此筆資料";
       this.button_text = "完成重建";
       this.confirm_text = "確認重建此項目？";
     } else {
-      this.header_text = '新增資料庫';
+      this.header_text = "新增資料庫";
       this.button_text = "新增福利項目";
       this.confirm_text = "確認新增福利項目？";
     }

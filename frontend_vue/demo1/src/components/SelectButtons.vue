@@ -1,79 +1,80 @@
 <template>
   <div>
-    <h4>福利別</h4>
-    <b-button-group size="lg">
-      <b-button
-        v-for="(btn, idx) in button1"
-        :key="idx"
-        :pressed.sync="btn.state"
-        variant="success"
-      >
-        {{ btn.caption }}
-      </b-button>
-    </b-button-group>
-    <!-- <p>
-      Pressed States: <strong>{{ btnStates1 }}</strong>
-    </p> -->
+    <b-container fluid>
 
-    <h4>身份別</h4>
-    <b-button-group size="lg">
-      <b-button
-        v-for="(btn, idx) in button2"
-        :key="idx"
-        :pressed.sync="btn.state"
-        variant="info"
-      >
-        {{ btn.caption }}
-      </b-button>
-    </b-button-group>
-    <!-- <p>
-      Pressed States: <strong>{{ btnStates2 }}</strong>
-    </p> -->
+      <b-card bg-variant="secondary" text-variant="white" title="福利別">
+        <b-button-group size="lg">
+          <b-button
+            v-for="(btn, idx) in button1"
+            :key="idx"
+            :pressed.sync="btn.state"
+            variant="info"
+          >
+            {{ btn.caption }}
+          </b-button>
+        </b-button-group>
+      </b-card>
 
-    <h4>年齡:{{ ageValue }}</h4>
-    <b-container class="bv-example-row">
-      <b-row>
-        <b-col cols="12">
-          <VueSlider
-            :min="0"
-            :max="100"
-            :marks="[0, 20, 40, 60, 80, 100]"
-            drag-on-click
-            :contained="true"
-            v-model="ageValue"
-            @change="$emit('input', ageValue)"
-          />
-        </b-col>
-      </b-row>
+
+      <b-card bg-variant="dark" text-variant="white" title="身份別">
+        <b-button-group size="lg">
+          <b-button
+            v-for="(btn, idx) in button2"
+            :key="idx"
+            :pressed.sync="btn.state"
+            variant="info"
+          >
+            {{ btn.caption }}
+          </b-button>
+        </b-button-group>
+      </b-card>
+
+
+      <b-card bg-variant="secondary" text-variant="white">
+        <h4>年齡:{{ ageValue }}</h4>
+        <b-container class="bv-example-row">
+          <b-row>
+            <b-col cols="12">
+              <VueSlider
+                :min="0"
+                :max="100"
+                :marks="[0, 20, 40, 60, 80, 100]"
+                drag-on-click
+                :contained="true"
+                v-model="ageValue"
+                @change="$emit('input', ageValue)"
+              />
+            </b-col>
+          </b-row>
+        </b-container>
+        <br />
+      </b-card>
+
+
+      <b-card bg-variant="dark" text-variant="white" title="設籍">
+        <b-form-select
+          v-model="selectArea"
+          :options="area"
+          class="mt-3"
+          style="width: 50%"
+        ></b-form-select>
+        <br />
+      </b-card>
+
+
+      <br />
+      <div>
+        <b-button @click="search_welfare()">搜尋</b-button>
+      </div>
+
+      <div>
+        <b-collapse id="collapse-t" v-model="table_visible" class="mt-2">
+          <div style="right: 5rem">一共 {{ search_cnt }} 筆搜尋結果</div>
+          <hr />
+          <ReturnList :msgs="msgs" />
+        </b-collapse>
+      </div>
     </b-container>
-
-    <br />
-    <br />
-    <h4>設籍</h4>
-    <b-form-select
-      v-model="selected4"
-      :options="area"
-      class="mt-3"
-      style="width: 50%"
-    ></b-form-select>
-    <!-- <div class="mt-3">
-      Selected: <strong>{{ selected4 }}</strong>
-    </div> -->
-
-    <br />
-    <br />
-    <br />
-    <div>
-      <b-button @click="search_welfare()">搜尋</b-button>
-    </div>
-
-    <div>
-      <b-collapse id="collapse-t" v-model="table_visible" class="mt-2">
-        <div style="right: 5rem">一共 {{ search_cnt }} 筆搜尋結果</div>
-        <hr />
-        <ReturnList :msgs="msgs" />
-      </b-collapse>
-    </div>
   </div>
 </template>
 
@@ -95,10 +96,9 @@ export default {
         { caption: "原住民", tid: 30, state: false },
         { caption: "孕婦", tid: 35, state: false },
         { caption: "重大傷病", tid: 9, state: false },
-        //{ caption: "老人", tid: 21, state: false },
       ],
 
-      selected4: null,
+      selectArea: null,
       area: [
         { text: "請選擇你的戶籍地", value: null, disabled: true },
         { text: "新北市", value: 52 },
@@ -124,49 +124,6 @@ export default {
   },
 
   methods: {
-    /*
-    async search_tag() {
-      var tags = [];
-
-      for (var j = 0; j < 4; j++) {
-        if (this.button1[j]["state"]) {
-          tags.push(this.button1[j]["caption"]);
-        }
-      }
-      for (j = 0; j < 5; j++) {
-        if (this.button2[j]["state"]) {
-          tags.push(this.button2[j]["caption"]);
-        }
-      }
-
-      //age
-      tags.push(this.ageValue);
-
-      if (this.selected4 != null) {
-        tags.push(this.selected4);
-      }
-
-      //console.log(this.input_tags);
-      var qstr =
-        "SELECT welfare_id FROM ( SELECT welfare_id, COUNT(*) as cnt FROM ( SELECT welfare_id, tag FROM corresponding as c JOIN tags as t ON c.tag_id = t.tag_id )as n WHERE ";
-      //var qstr = "hello";
-      for (var i = 0; i < tags.length; ++i) {
-        qstr += "(n.tag = '" + tags[i] + "')";
-        if (i != tags.length - 1) qstr += " OR ";
-      }
-      qstr += " GROUP BY welfare_id) as x WHERE cnt = " + tags.length;
-      console.log(qstr);
-      const val = await this.axios
-        .post("/mysql", {
-          query: qstr,
-        })
-        .then(function (response) {
-          return response.data;
-        });
-
-      console.log(val);
-    },
-    */
 
     async search_tags(wid) {
       const qstr = `SELECT t.tag_id, tag FROM ( SELECT tag_id FROM corresponding WHERE welfare_id = ${wid} ) as c INNER JOIN tags t ON t.tag_id = c.tag_id ORDER BY c.tag_id`;
@@ -181,25 +138,21 @@ export default {
     },
 
     async search_welfare() {
-      // ageValue
 
-      // collect tag
       var tags = [];
 
       for (var j = 0; j < 4; j++) {
         if (this.button1[j]["state"]) {
-          //tags.push(this.button1[j]["caption"]);
           tags.push(this.button1[j]["tid"]);
         }
       }
       for (j = 0; j < 4; j++) {
         if (this.button2[j]["state"]) {
-          //tags.push(this.button2[j]["caption"]);
           tags.push(this.button2[j]["tid"]);
         }
       }
-      if (this.selected4 != null) {
-        tags.push(this.selected4);
+      if (this.selectArea != null) {
+        tags.push(this.selectArea);
       }
 
       if (tags.length === 0) {
@@ -207,21 +160,23 @@ export default {
         return;
       }
 
-      var qstr = `SELECT o.welfare_id , name FROM ( SELECT welfare_id, COUNT(*) as cnt FROM ( `;
+      
+      var qstr = `SELECT o.welfare_id , o.name FROM overall o, `;
 
-      qstr += `SELECT welfare_id FROM age WHERE (age_lower <= ${this.ageValue}) AND (age_upper >= ${this.ageValue}) UNION ALL `; //age
+      qstr += `(SELECT welfare_id FROM corresponding WHERE tag_id = "${tags[tags.length-1]}" ) x, `;
 
-      qstr += `SELECT welfare_id FROM corresponding WHERE `; //tag
+      qstr += `(SELECT welfare_id FROM age WHERE (age_lower <= ${this.ageValue}) AND (age_upper >= ${this.ageValue}) ) y, `;
 
-      for (var i = 0; i < tags.length; ++i) {
-        qstr += `(tag_id = "${tags[i]}") `; ////////////////////
-        if (i != tags.length - 1) qstr += "OR ";
+      qstr += `(SELECT welfare_id FROM corresponding WHERE `;
+
+      for (var i = 0; i < tags.length-1; ++i) {
+        qstr += `(tag_id = "${tags[i]}") `; 
+        if (i != tags.length - 2) qstr += "OR ";
       }
 
-      const tag_cnt = tags.length + 1; //age + 1
+      qstr += ` ) z WHERE o.welfare_id=x.welfare_id AND o.welfare_id=y.welfare_id AND o.welfare_id=z.welfare_id;`;
 
-      qstr += `) as x GROUP BY welfare_id HAVING cnt = ${tag_cnt} ) as y INNER JOIN overall o ON o.welfare_id = y.welfare_id`;
-      //console.log(qstr);
+
       const val = await this.axios
         .post("/mysql", {
           query: qstr,
@@ -229,7 +184,6 @@ export default {
         .then(function (response) {
           return response.data;
         });
-      //console.log(val);
 
       this.search_cnt = val.length;
       this.table_visible = true;
@@ -237,18 +191,15 @@ export default {
       var arr = [];
       for (i = 0; i < val.length; ++i) {
         const got_tags = await this.search_tags(val[i]["welfare_id"]);
-        //console.log(got_tags);
+  
         arr.push({
           welfare_id: val[i]["welfare_id"],
           name: val[i]["name"],
           tags: got_tags,
         });
       }
-      //console.log(arr);
+  
       this.msgs = arr;
-      //this.search_cnt = arr.length;
-      //this.table_visible = true;
-      //const element = this.$refs["container"];
     },
   },
 };

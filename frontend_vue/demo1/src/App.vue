@@ -46,7 +46,8 @@ export default {
   }
 }
 
-body, html {
+body,
+html {
   padding: 0;
   margin: 0;
   width: 100%;

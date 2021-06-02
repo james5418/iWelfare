@@ -1,6 +1,11 @@
 <template>
   <b-container fluid class="bv-example-row">
-    <b-card header="更改標籤名稱" header-bg-variant="secondary" bg-variant="light" class="text-center">
+    <b-card
+      header="更改標籤名稱"
+      header-bg-variant="secondary"
+      bg-variant="light"
+      class="text-center"
+    >
       <b-card-text>
         <b-row>
           <b-col fluid cols="4">

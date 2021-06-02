@@ -10,7 +10,7 @@
           <b-nav-item to="/">福利查詢</b-nav-item>
           <b-nav-item to="/listsearch">個人條件查詢</b-nav-item>
           <b-nav-item to="/about">關於</b-nav-item>
-          <b-nav-item to="/database">完善福利資料庫...</b-nav-item>
+          <b-nav-item to="/database">完善福利資料庫</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -19,7 +19,7 @@
             <b-form-input
               size="sm"
               class="mr-sm-2"
-              placeholder="Search"
+              placeholder="福利項目名稱查詢"
             ></b-form-input>
             <b-button size="sm" class="my-2 my-sm-0" type="submit"
               >搜尋</b-button

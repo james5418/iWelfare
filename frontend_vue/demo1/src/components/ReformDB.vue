@@ -1,6 +1,11 @@
 <template>
   <b-container fluid class="bv-example-row">
-    <b-card header="待重建項目" header-bg-variant="secondary" bg-variant="light" class="text-center">
+    <b-card
+      header="待重建項目"
+      header-bg-variant="secondary"
+      bg-variant="light"
+      class="text-center"
+    >
       <b-table
         size="lg"
         responsive

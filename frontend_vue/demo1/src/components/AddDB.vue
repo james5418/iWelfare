@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="bv-example-row">
     <b-card
-      :header="mode === 'renew' ? '重建此筆資料' : '新增資料庫'"
+      :header="header_text"
       header-bg-variant="secondary"
       bg-variant="light"
       class="text-center"
@@ -91,7 +91,7 @@
         </b-collapse>
         <b-form-checkbox v-model="age_enable"> 申請年齡限制 </b-form-checkbox>
         <b-button @click="add_welfare()">
-          {{ mode === "renew" ? "完成重建" : "新增福利項目" }}
+          {{ button_text }}
         </b-button>
       </b-card-text>
     </b-card>
@@ -103,9 +103,34 @@ export default {
   name: "AddDB",
   props: {
     mode: String,
+    input_str: JSON,
   },
   mounted() {
     this.fetchData();
+  },
+  created() {
+    if (this.mode === "update") {
+      this.input_name = this.input_str.input_name.input_name;
+      this.input_welfare = this.input_str.input_welfare;
+      this.input_apply = this.input_str.input_apply;
+      this.input_contact = this.input_str.input_contact;
+      this.input_criteria = this.input_str.input_criteria;
+      this.input_doc = this.input_str.input_doc;
+      this.input_notice = this.input_str.input_notice;
+      this.age_range = this.input_str.age_range;
+      this.selectedTags = this.input_str.selectedTags;
+      this.header_text = '修改此筆資料';
+      this.button_text = "完成修改";
+      this.confirm_text = "確認修改此項目？";
+    } else if (this.mode === "renew") {
+      this.header_text = '重建此筆資料';
+      this.button_text = "完成重建";
+      this.confirm_text = "確認重建此項目？";
+    } else {
+      this.header_text = '新增資料庫';
+      this.button_text = "新增福利項目";
+      this.confirm_text = "確認新增福利項目？";
+    }
   },
   watch: {
     "$route.path": "this.fetchData",
@@ -123,7 +148,9 @@ export default {
       input_notice: "",
       age_range: [0, 100],
       selectedTags: [],
-      new_name: "",
+      header_text = "",
+      button_text = "",
+      confirm_text = "",
     };
   },
   methods: {
@@ -175,9 +202,7 @@ export default {
       else return true;
     },
     async add_welfare() {
-      const conf =
-        this.mode === "renew" ? "確認重建此項目？" : "確認新增福利項目？";
-      if (confirm(conf)) {
+      if (confirm(this.confirm_text)) {
         if (!this.validate_input()) {
           alert("輸入格式有誤！");
           return;

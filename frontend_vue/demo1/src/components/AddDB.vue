@@ -2,7 +2,8 @@
   <b-container fluid class="bv-example-row">
     <b-card
       :header="mode === 'renew' ? '重建此筆資料' : '新增資料庫'"
-      bg-variant="light"
+      header-bg-variant="secondary"
+      bg-variant="light"  
       class="text-center"
     >
       <b-card-text>

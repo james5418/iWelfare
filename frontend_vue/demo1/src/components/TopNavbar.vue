@@ -7,8 +7,8 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item to="/">首頁</b-nav-item>
-          <b-nav-item to="/listsearch">福利選單</b-nav-item>
+          <b-nav-item to="/">福利查詢</b-nav-item>
+          <b-nav-item to="/listsearch">個人條件查詢</b-nav-item>
           <b-nav-item to="/about">關於</b-nav-item>
           <b-nav-item to="/database">完善福利資料庫...</b-nav-item>
         </b-navbar-nav>
@@ -22,7 +22,7 @@
               placeholder="Search"
             ></b-form-input>
             <b-button size="sm" class="my-2 my-sm-0" type="submit"
-              >搜尋補助名稱</b-button
+              >搜尋</b-button
             >
           </b-nav-form>
 

@@ -22,6 +22,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import ".//assets/styles/custom.scss";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -41,5 +44,15 @@ export default {
       color: #42b983;
     }
   }
+}
+
+body, html {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+body {
+  background-color: white;
 }
 </style>

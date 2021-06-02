@@ -1,0 +1,15 @@
+// Override / set color variables
+$lyellow: rgb(255, 252, 224);
+$dyellow: rgb(255, 245, 159);
+
+$lgreen: rgb(118, 156, 131);
+$dgreen: rgb(52, 68, 54);
+
+
+$theme-colors: (
+  "white": $lyellow,
+  //"light": $dyellow,
+  "secondary": $lgreen,
+  "dark": $dgreen,
+
+);

@@ -72,7 +72,7 @@ export default {
       fields: [
         {
           key: "name",
-          variant: "danger",
+          variant: "secondary",
           class: "text-right",
         },
         {

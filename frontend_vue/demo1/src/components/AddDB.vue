@@ -148,9 +148,9 @@ export default {
       input_notice: "",
       age_range: [0, 100],
       selectedTags: [],
-      header_text = "",
-      button_text = "",
-      confirm_text = "",
+      header_text: "",
+      button_text: "",
+      confirm_text: "",
     };
   },
   methods: {

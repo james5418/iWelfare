@@ -1,7 +1,6 @@
 <template>
   <div>
     <b-container fluid>
-
       <b-card bg-variant="secondary" text-variant="white" title="福利別">
         <b-button-group size="lg">
           <b-button
@@ -15,7 +14,6 @@
         </b-button-group>
       </b-card>
 
-
       <b-card bg-variant="dark" text-variant="white" title="身份別">
         <b-button-group size="lg">
           <b-button
@@ -28,7 +26,6 @@
           </b-button>
         </b-button-group>
       </b-card>
-
 
       <b-card bg-variant="secondary" text-variant="white">
         <h4>年齡:{{ ageValue }}</h4>
@@ -50,7 +47,6 @@
         <br />
       </b-card>
 
-
       <b-card bg-variant="dark" text-variant="white" title="設籍">
         <b-form-select
           v-model="selectArea"
@@ -60,7 +56,6 @@
         ></b-form-select>
         <br />
       </b-card>
-
 
       <br />
       <div>
@@ -124,7 +119,6 @@ export default {
   },
 
   methods: {
-
     async search_tags(wid) {
       const qstr = `SELECT t.tag_id, tag FROM ( SELECT tag_id FROM corresponding WHERE welfare_id = ${wid} ) as c INNER JOIN tags t ON t.tag_id = c.tag_id ORDER BY c.tag_id`;
       const val = await this.axios
@@ -138,7 +132,6 @@ export default {
     },
 
     async search_welfare() {
-
       var tags = [];
 
       for (var j = 0; j < 4; j++) {
@@ -160,22 +153,22 @@ export default {
         return;
       }
 
-      
       var qstr = `SELECT o.welfare_id , o.name FROM overall o, `;
 
-      qstr += `(SELECT welfare_id FROM corresponding WHERE tag_id = "${tags[tags.length-1]}" ) x, `;
+      qstr += `(SELECT welfare_id FROM corresponding WHERE tag_id = "${
+        tags[tags.length - 1]
+      }" ) x, `;
 
       qstr += `(SELECT welfare_id FROM age WHERE (age_lower <= ${this.ageValue}) AND (age_upper >= ${this.ageValue}) ) y, `;
 
       qstr += `(SELECT welfare_id FROM corresponding WHERE `;
 
-      for (var i = 0; i < tags.length-1; ++i) {
-        qstr += `(tag_id = "${tags[i]}") `; 
+      for (var i = 0; i < tags.length - 1; ++i) {
+        qstr += `(tag_id = "${tags[i]}") `;
         if (i != tags.length - 2) qstr += "OR ";
       }
 
       qstr += ` ) z WHERE o.welfare_id=x.welfare_id AND o.welfare_id=y.welfare_id AND o.welfare_id=z.welfare_id;`;
-
 
       const val = await this.axios
         .post("/mysql", {
@@ -191,14 +184,14 @@ export default {
       var arr = [];
       for (i = 0; i < val.length; ++i) {
         const got_tags = await this.search_tags(val[i]["welfare_id"]);
-  
+
         arr.push({
           welfare_id: val[i]["welfare_id"],
           name: val[i]["name"],
           tags: got_tags,
         });
       }
-  
+
       this.msgs = arr;
     },
   },

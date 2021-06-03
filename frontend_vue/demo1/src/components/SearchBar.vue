@@ -4,6 +4,7 @@
       <!-- <li v-for="m in msgs" :key="m.welfare_id">
         <span @click="showMore(m)">{{ m }}</span>
       </li> -->
+      <div> {{ selectedTags }} </div>
       <b-card
         bg-variant="light"
         align="center"
@@ -66,6 +67,13 @@
           >
             進階選項
           </b-button>
+          <b-button
+            style="position: absolute; right: 1rem"
+            variant="Light"
+            to="/listsearch"
+          >
+            進階選項
+          </b-button>
         </b-card-text>
       </b-card>
 
@@ -97,10 +105,7 @@ export default {
   },
   data() {
     return {
-      selectedTags: [
-        { tag_id: 35, tag: "孕婦" },
-        { tag_id: 36, tag: "生育" },
-      ],
+      selectedTags: [],
       tags_data: [],
       age: 18,
       age_enable: false,

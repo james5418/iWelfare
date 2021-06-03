@@ -29,7 +29,7 @@
             <b-input-group>
               <b-form-input
                 v-model="input_name"
-                placeholder="bla bla bla bla bla bla bla bla"
+                placeholder="新的標籤名稱"
               ></b-form-input>
               <b-button @click="change_tag(input_name)"> 更改 </b-button>
             </b-input-group>

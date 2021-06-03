@@ -13,12 +13,14 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
+          <b-nav-item to="/modify">編輯頁面</b-nav-item>
           <b-nav-form>
             <b-form-input
               size="sm"
               class="mr-sm-2"
               placeholder="福利項目名稱查詢"
               v-model="input_name"
+              @keydown.enter.prevent="test()"
             ></b-form-input>
             <b-button
               size="sm"
@@ -27,7 +29,6 @@
               >搜尋</b-button
             >
           </b-nav-form>
-
           <b-nav-item-dropdown text="Lang" right>
             <b-dropdown-item href="#">EN</b-dropdown-item>
             <b-dropdown-item href="#">ES</b-dropdown-item>
@@ -60,5 +61,10 @@ export default {
       input_name: "",
     };
   },
+  methods: {
+    test() {
+      this.$router.push(`/name/${this.input_name}`);
+    }
+  }
 };
 </script>

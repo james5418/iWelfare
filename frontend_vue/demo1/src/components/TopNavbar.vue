@@ -1,8 +1,6 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand>iWelfare</b-navbar-brand>
-
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
@@ -20,8 +18,12 @@
               size="sm"
               class="mr-sm-2"
               placeholder="福利項目名稱查詢"
+              v-model="input_name"
             ></b-form-input>
-            <b-button size="sm" class="my-2 my-sm-0" type="submit"
+            <b-button
+              size="sm"
+              class="my-2 my-sm-0"
+              :href="`/name/${this.input_name}`"
               >搜尋</b-button
             >
           </b-nav-form>
@@ -53,10 +55,10 @@ export default {
   props: {
     msg: String,
   },
-  // data() {
-  //   return {
-  //     input_tags: ["風災", "住宅", "台中"],
-  //   };
-  // },
+  data() {
+    return {
+      input_name: "",
+    };
+  },
 };
 </script>

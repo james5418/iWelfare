@@ -4,7 +4,6 @@
       <!-- <li v-for="m in msgs" :key="m.welfare_id">
         <span @click="showMore(m)">{{ m }}</span>
       </li> -->
-      <div> {{ selectedTags }} </div>
       <b-card
         bg-variant="light"
         align="center"
@@ -68,11 +67,11 @@
             進階選項
           </b-button>
           <b-button
-            style="position: absolute; right: 1rem"
+            style="position: absolute; left: 1rem"
             variant="Light"
             to="/listsearch"
           >
-            進階選項
+            不知道自己符合哪些項目？
           </b-button>
         </b-card-text>
       </b-card>
@@ -105,7 +104,7 @@ export default {
   },
   data() {
     return {
-      selectedTags: [],
+      selectedTags: [{ tag_id: 1, tag: "屏東縣" }],
       tags_data: [],
       age: 18,
       age_enable: false,
@@ -183,8 +182,14 @@ export default {
       this.table_visible = true;
       this.msgs = arr;
     },
+    selected_incudes(tag) {
+      for (var i = 0; i < this.selectedTags.length; ++i) {
+        if (this.selectedTags[i]["tag_id"] === tag["tag_id"]) return true;
+      }
+      return false;
+    },
     append_selected(tag) {
-      if (this.selectedTags.includes(tag)) {
+      if (this.selected_incudes(tag)) {
         alert("請勿選擇重複的標籤！");
         return;
       }

@@ -69,15 +69,23 @@ export default {
       //console.log(val);
       this.tags_data = val;
     },
-
     reset_input() {
       this.input_name = "";
     },
-
+    checkUsed(tag_name) {
+      for (var i = 0; i < this.tags_data.length; ++i) {
+        if (this.tags_data[i]["tag"] === tag_name) return true;
+      }
+      return false;
+    },
     async change_tag(tag_name) {
       if (confirm("確認修改標籤名稱？")) {
         if (this.input_name === "") {
           alert("輸入不可為空！");
+          return;
+        }
+        if (this.checkUsed(tag_name)) {
+          alert("標籤名稱不可重複！");
           return;
         }
         const tag_msg = await this.axios

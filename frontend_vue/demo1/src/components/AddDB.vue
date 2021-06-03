@@ -3,6 +3,7 @@
     <b-card
       :header="header_text"
       header-bg-variant="secondary"
+      header-text-variant="light"
       bg-variant="light"
       class="text-center"
     >

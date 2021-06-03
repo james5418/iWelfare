@@ -5,11 +5,21 @@ $dyellow: rgb(255, 245, 159);
 $lgreen: rgb(118, 156, 131);
 $dgreen: rgb(52, 68, 54);
 
+$lblue: rgb(89, 121, 136);
+$dblue: rgb(21, 44, 80);
+
+
+// $theme-colors: (
+//   "white": $lyellow,
+//   //"light": $dyellow,
+//   "secondary": $lgreen,
+//   "dark": $dgreen,
+// );
 
 $theme-colors: (
-  "white": $lyellow,
+  //"white": $lyellow,
   //"light": $dyellow,
-  "secondary": $lgreen,
-  "dark": $dgreen,
+  "secondary": $lblue,
+  "dark": $dblue,
 
 );

@@ -1,10 +1,16 @@
 <template>
   <div>
-    <b-container fluid>
+    <b-container class="text-center" fluid>
       <!-- <li v-for="m in msgs" :key="m.welfare_id">
         <span @click="showMore(m)">{{ m }}</span>
       </li> -->
-      <b-card bg-variant="light" img-src="/logo.png" class="text-center">
+      <b-card
+        bg-variant="light"
+        align="center"
+        img-height="550rem"
+        img-src="/logo2.png"
+        class="text-center"
+      >
         <b-card-text>
           <tags-input
             element-id="tags"
@@ -18,7 +24,6 @@
             typeahead-show-on-focus
             id-field="tag_id"
             text-field="tag"
-            ref="container"
             :limit="8"
           />
 
@@ -48,6 +53,7 @@
             split
             boundary
             @click="search_welfare(selectedTags, age)"
+            ref="container"
           >
             <b-dropdown-item v-for="(tag, key) in tags_data" :key="key">
               <div @click="append_selected(tag)">{{ tag.tag }}</div>

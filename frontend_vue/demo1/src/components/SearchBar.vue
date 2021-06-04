@@ -7,8 +7,8 @@
       <b-card
         bg-variant="light"
         align="center"
-        img-height="550rem"
-        img-src="/logo2.png"
+        
+        img-src="/logo.png"
         class="text-center"
       >
         <b-card-text>

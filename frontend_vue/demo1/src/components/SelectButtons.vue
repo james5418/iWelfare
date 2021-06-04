@@ -1,33 +1,34 @@
 <template>
   <div>
+    <br/>
     <b-container fluid>
-      <b-card bg-variant="secondary" text-variant="white" title="福利別">
+      <b-card bg-variant="light" text-variant="black" title="福利別">
         <b-button-group size="lg">
           <b-button
             v-for="(btn, idx) in button1"
             :key="idx"
             :pressed.sync="btn.state"
-            variant="info"
+            variant="outline-primary"
           >
             {{ btn.caption }}
           </b-button>
         </b-button-group>
       </b-card>
 
-      <b-card bg-variant="dark" text-variant="white" title="身份別">
+      <b-card bg-variant="light" text-variant="black" title="身份別">
         <b-button-group size="lg">
           <b-button
             v-for="(btn, idx) in button2"
             :key="idx"
             :pressed.sync="btn.state"
-            variant="info"
+            variant="outline-primary"
           >
             {{ btn.caption }}
           </b-button>
         </b-button-group>
       </b-card>
 
-      <b-card bg-variant="secondary" text-variant="white">
+      <b-card bg-variant="light" text-variant="black">
         <h4>年齡:{{ ageValue }}</h4>
         <b-container class="bv-example-row">
           <b-row>
@@ -47,7 +48,7 @@
         <br />
       </b-card>
 
-      <b-card bg-variant="dark" text-variant="white" title="設籍">
+      <b-card bg-variant="light" text-variant="black" title="設籍">
         <b-form-select
           v-model="selectArea"
           :options="area"

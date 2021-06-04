@@ -1,6 +1,7 @@
 <template>
   <div class="ListSearch">
-    <img alt="Vue logo" src="/favicon.ico" />
+    <!-- <img alt="Vue logo" src="/favicon.ico" /> -->
+    <img alt="Vue logo" src="/logo3.jpg" width="110" height="110"/>
     <SelectButtons />
   </div>
 </template>

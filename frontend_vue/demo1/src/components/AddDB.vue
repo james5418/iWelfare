@@ -109,32 +109,11 @@ export default {
   mounted() {
     this.fetchData();
   },
-  created() {
-    if (this.mode === "update") {
-      this.input_name = this.input_str.input_name;
-      this.input_welfare = this.input_str.input_welfare;
-      this.input_apply = this.input_str.input_apply;
-      this.input_contact = this.input_str.input_contact;
-      this.input_criteria = this.input_str.input_criteria;
-      this.input_doc = this.input_str.input_doc;
-      this.input_notice = this.input_str.input_notice;
-      this.age_range = this.input_str.age_range;
-      this.selectedTags = this.input_str.selectedTags;
-      this.header_text = "修改此筆資料";
-      this.button_text = "完成修改";
-      this.confirm_text = "確認修改此項目？";
-    } else if (this.mode === "renew") {
-      this.header_text = "重建此筆資料";
-      this.button_text = "完成重建";
-      this.confirm_text = "確認重建此項目？";
-    } else {
-      this.header_text = "新增資料庫";
-      this.button_text = "新增福利項目";
-      this.confirm_text = "確認新增福利項目？";
-    }
-  },
   watch: {
-    "$route.path": "this.fetchData",
+    input_str: "this.assignData",
+  },
+  created() {
+    this.assignData();
   },
   data() {
     return {
@@ -163,6 +142,30 @@ export default {
         });
       //console.log(val);
       this.tags_data = val;
+    },
+    assignData() {
+      if (this.mode === "update") {
+        this.input_name = this.input_str.input_name;
+        this.input_welfare = this.input_str.input_welfare;
+        this.input_apply = this.input_str.input_apply;
+        this.input_contact = this.input_str.input_contact;
+        this.input_criteria = this.input_str.input_criteria;
+        this.input_doc = this.input_str.input_doc;
+        this.input_notice = this.input_str.input_notice;
+        this.age_range = this.input_str.age_range;
+        this.selectedTags = this.input_str.selectedTags;
+        this.header_text = "修改此筆資料";
+        this.button_text = "完成修改";
+        this.confirm_text = "確認修改此項目？";
+      } else if (this.mode === "renew") {
+        this.header_text = "重建此筆資料";
+        this.button_text = "完成重建";
+        this.confirm_text = "確認重建此項目？";
+      } else {
+        this.header_text = "新增資料庫";
+        this.button_text = "新增福利項目";
+        this.confirm_text = "確認新增福利項目？";
+      }
     },
     append_selected(tag) {
       if (this.selectedTags.includes(tag)) {

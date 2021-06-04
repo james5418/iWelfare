@@ -71,7 +71,7 @@
             variant="Light"
             to="/listsearch"
           >
-            不知道自己符合哪些項目？
+            不知道自己符合哪些項目？ 請點這裡
           </b-button>
         </b-card-text>
       </b-card>

@@ -8,12 +8,15 @@
       class="text-center"
     >
       <div>
+        <b-input-group prepend="更改資料庫">
         <b-form-input
           v-model="changeID"
           placeholder="請輸入要修改的welfare_id"
         ></b-form-input>
-        <div class="mt-2">Value: {{ changeID }}</div>
+
         <b-button variant="secondary" v-b-modal.changedb @click="fetchData()">修改</b-button>
+        </b-input-group>
+
       </div>
 
       <b-modal
@@ -26,10 +29,6 @@
         <AddDB mode="update" :input_str="input_str" />
 
       </b-modal>
-
-      <div>
-        {{input_str}}
-      </div>
 
       
     </b-card>

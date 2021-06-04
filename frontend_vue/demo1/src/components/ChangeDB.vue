@@ -8,7 +8,7 @@
       class="text-center"
     >
       <div>
-        <b-input-group prepend="更改資料庫">
+        <b-input-group prepend="welfare_id">
         <b-form-input
           v-model="changeID"
           placeholder="請輸入要修改的welfare_id"

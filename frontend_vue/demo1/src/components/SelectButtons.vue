@@ -153,7 +153,7 @@ export default {
         return;
       }
 
-      var qstr = `SELECT o.welfare_id , o.name FROM overall o, `;
+      var qstr = `SELECT distinct o.welfare_id , o.name FROM overall o, `;
 
       qstr += `(SELECT welfare_id FROM corresponding WHERE tag_id = "${
         tags[tags.length - 1]

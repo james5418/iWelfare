@@ -1,8 +1,6 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand>iWelfare</b-navbar-brand>
-
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
@@ -15,17 +13,22 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
+          <b-nav-item to="/modify">編輯頁面</b-nav-item>
           <b-nav-form>
             <b-form-input
               size="sm"
               class="mr-sm-2"
               placeholder="福利項目名稱查詢"
+              v-model="input_name"
+              @keydown.enter.prevent="test()"
             ></b-form-input>
-            <b-button size="sm" class="my-2 my-sm-0" type="submit"
+            <b-button
+              size="sm"
+              class="my-2 my-sm-0"
+              :href="`/name/${this.input_name}`"
               >搜尋</b-button
             >
           </b-nav-form>
-
           <b-nav-item-dropdown text="Lang" right>
             <b-dropdown-item href="#">EN</b-dropdown-item>
             <b-dropdown-item href="#">ES</b-dropdown-item>
@@ -53,10 +56,15 @@ export default {
   props: {
     msg: String,
   },
-  // data() {
-  //   return {
-  //     input_tags: ["風災", "住宅", "台中"],
-  //   };
-  // },
+  data() {
+    return {
+      input_name: "",
+    };
+  },
+  methods: {
+    test() {
+      this.$router.push(`/name/${this.input_name}`);
+    }
+  }
 };
 </script>

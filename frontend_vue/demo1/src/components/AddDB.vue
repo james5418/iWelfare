@@ -104,14 +104,14 @@ export default {
   name: "AddDB",
   props: {
     mode: String,
-    input_str: JSON,
+    input_str: Object,
   },
   mounted() {
     this.fetchData();
   },
   created() {
     if (this.mode === "update") {
-      this.input_name = this.input_str.input_name.input_name;
+      this.input_name = this.input_str.input_name;
       this.input_welfare = this.input_str.input_welfare;
       this.input_apply = this.input_str.input_apply;
       this.input_contact = this.input_str.input_contact;
@@ -157,7 +157,7 @@ export default {
   methods: {
     async fetchData() {
       const val = await this.axios
-        .get("/backend/tags/?_size=500")
+        .get("/backend/tags/?_size=200")
         .then(function (response) {
           return response.data;
         });

@@ -50,7 +50,7 @@ export default {
   components: {
     ReturnModal,
   },
-  mounted() {
+  created() {
     this.fetchData();
   },
   watch: {

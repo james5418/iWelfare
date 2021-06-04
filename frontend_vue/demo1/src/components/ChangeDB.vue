@@ -8,30 +8,31 @@
       class="text-center"
     >
       <div>
-        <b-form-input
-          v-model="changeID"
-          placeholder="請輸入要修改的welfare_id"
-        ></b-form-input>
-        <div class="mt-2">Value: {{ changeID }}</div>
-        <b-button variant="secondary" v-b-modal.changedb @click="fetchData()"
-          >修改</b-button
-        >
+        <b-input-group prepend="welfare_id">
+          <b-form-input
+            v-model="changeID"
+            placeholder="請輸入要修改的welfare_id"
+          ></b-form-input>
+
+          <b-button variant="secondary" v-b-modal.changedb @click="fetchData()">
+            <b-icon icon="pencil-square"></b-icon>
+          </b-button>
+
+          <b-button variant="secondary" @click="deleteDB()">
+            <b-icon icon="trash"></b-icon>
+          </b-button>
+        </b-input-group>
       </div>
 
       <b-modal id="changedb" size="xl" hide-footer lazy title="修改">
         <AddDB mode="update" :input_str="input_str" />
       </b-modal>
-
-      <div>
-        {{ input_str }}
-      </div>
     </b-card>
   </b-container>
 </template>
 
 <script>
 import AddDB from "@/components/AddDB.vue";
-
 export default {
   name: "ChangeDB",
   components: {
@@ -80,7 +81,6 @@ export default {
       this.input_str.input_doc = this.welfare_data[0].document_needed;
       this.input_str.input_notice = this.welfare_data[0].notice;
       //console.log(this.input_str);
-
       const val2 = await this.axios
         .get("/backend/age/" + this.changeID)
         .then(function (response) {
@@ -90,9 +90,7 @@ export default {
       //console.log(this.age_data);
       this.input_str.age_range[0] = this.age_data[0].age_lower;
       this.input_str.age_range[1] = this.age_data[0].age_upper;
-
       //console.log(this.input_str)
-
       var qstr = `SELECT c.tag_id, t.tag FROM corresponding c, tags t WHERE c.welfare_id = ${this.changeID} and c.tag_id = t.tag_id `;
       const val3 = await this.axios
         .post("/mysql", {
@@ -101,24 +99,22 @@ export default {
         .then(function (response) {
           return response.data;
         });
-
       this.input_str.selectedTags = val3;
       console.log(this.input_str);
-
-      // const val3 = await this.axios
-      //   .get(
-      //     "/backend/corresponding/?_where=(welfare_id,eq," + this.changeID + ")"
-      //   )
-      //   .then(function (response) {
-      //     return response.data;
-      //   });
-      // this.tag_data = val3;
-      // console.log(this.tag_data);
-
-      // for (var i = 0; i < this.tag_data.length; i++) {
-      //   this.select_tag.push(this.tag_data[i]["tag_id"]);
-      //   console.log(this.select_tag[i]);
-      // }
+    },
+    async deleteDB() {
+      const val = await this.axios
+        .delete("/backend/overall/" + this.changeID)
+        .then(function (response) {
+          return response.data;
+        });
+      console.log(val);
+      const val2 = await this.axios
+        .delete("/backend/age/" + this.changeID)
+        .then(function (response) {
+          return response.data;
+        });
+      console.log(val2);
     },
   },
 };

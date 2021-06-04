@@ -1,23 +1,18 @@
 <template>
   <div class="database">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <img alt="Vue logo" src="/logo3.jpg" width="110" height="110" />
+    <br /><br />
     <ReformDB />
-    <AddDB />
-    <ChangeTag />
   </div>
 </template>
 
 <script>
-import AddDB from "@/components/AddDB.vue";
 import ReformDB from "@/components/ReformDB.vue";
-import ChangeTag from "@/components/ChangeTag.vue";
 
 export default {
   name: "Database",
   components: {
-    AddDB,
     ReformDB,
-    ChangeTag,
   },
   data() {
     return {

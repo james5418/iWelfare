@@ -1,5 +1,6 @@
 <template>
   <b-container fluid class="bv-example-row">
+    <div>{{ selectedTags }}</div>
     <b-card
       :header="header_text"
       header-bg-variant="secondary"
@@ -91,7 +92,7 @@
           <br /><br />
         </b-collapse>
         <b-form-checkbox v-model="age_enable"> 申請年齡限制 </b-form-checkbox>
-        <b-button @click="add_welfare()">
+        <b-button @click="process()">
           {{ button_text }}
         </b-button>
       </b-card-text>
@@ -119,6 +120,7 @@ export default {
     return {
       age_enable: false,
       tags_data: [],
+      input_id: "",
       input_name: "",
       input_welfare: "",
       input_apply: "",
@@ -145,6 +147,7 @@ export default {
     },
     assignData() {
       if (this.mode === "update") {
+        this.input_id = this.input_str.input_id;
         this.input_name = this.input_str.input_name;
         this.input_welfare = this.input_str.input_welfare;
         this.input_apply = this.input_str.input_apply;
@@ -154,17 +157,21 @@ export default {
         this.input_notice = this.input_str.input_notice;
         this.age_range = this.input_str.age_range;
         this.selectedTags = this.input_str.selectedTags;
+        this.age_enable = true;
         this.header_text = "修改此筆資料";
         this.button_text = "完成修改";
         this.confirm_text = "確認修改此項目？";
+        this.success_text = "修改成功！";
       } else if (this.mode === "renew") {
         this.header_text = "重建此筆資料";
         this.button_text = "完成重建";
         this.confirm_text = "確認重建此項目？";
+        this.success_text = "重建成功！";
       } else {
         this.header_text = "新增資料庫";
         this.button_text = "新增福利項目";
         this.confirm_text = "確認新增福利項目？";
+        this.success_text = "新增成功！";
       }
     },
     append_selected(tag) {
@@ -181,7 +188,6 @@ export default {
     },
     reset_input() {
       this.input_name = "";
-      this.input_name = "";
       this.input_welfare = "";
       this.input_apply = "";
       this.input_contact = "";
@@ -192,7 +198,6 @@ export default {
     },
     validate_input() {
       if (
-        this.input_name === "" ||
         this.input_name === "" ||
         this.input_welfare === "" ||
         this.input_apply === "" ||
@@ -205,88 +210,223 @@ export default {
         return false;
       else return true;
     },
-    async add_welfare() {
+    async process() {
       if (confirm(this.confirm_text)) {
         if (!this.validate_input()) {
           alert("輸入格式有誤！");
           return;
         }
         // adding new overall to db
-        const new_wid = await this.axios
-          .post("/backend/overall", {
-            name: this.input_name,
-            welfare: this.input_welfare,
-            application_agency: this.input_apply,
-            contact_info: this.input_contact,
-            criteria: this.input_criteria,
-            document_needed: this.input_doc,
-            notice: this.input_notice,
-          })
-          .then(function (response) {
-            return response.data.insertId;
-          });
-        console.log(new_wid);
-
-        // adding wid age range to db
-        var age_l, age_h;
-        if (this.age_enable) {
-          age_l = this.age_range[0];
-          age_h = this.age_range[1];
+        if (this.mode === "update") {
+          this.modify_welfare();
         } else {
-          age_l = -1;
-          age_h = 127;
+          this.add_welfare();
         }
-        console.log(age_l, age_h);
-        const age_msg = await this.axios
-          .post("/backend/age", {
-            welfare_id: new_wid,
-            age_lower: age_l,
-            age_upper: age_h,
+      }
+    },
+    async modify_welfare() {
+      const mod_wid = await this.axios
+        .put("/backend/overall", {
+          welfare_id: this.input_id,
+          name: this.input_name,
+          welfare: this.input_welfare,
+          application_agency: this.input_apply,
+          contact_info: this.input_contact,
+          criteria: this.input_criteria,
+          document_needed: this.input_doc,
+          notice: this.input_notice,
+        })
+        .then(function (response) {
+          return response.data.insertId;
+        });
+      console.log(mod_wid);
+
+      // adding wid age range to db
+      var age_l, age_h;
+      if (this.age_enable) {
+        age_l = this.age_range[0];
+        age_h = this.age_range[1];
+      } else {
+        age_l = 0;
+        age_h = 100;
+      }
+      console.log(age_l, age_h);
+      const age_msg = await this.axios
+        .put("/backend/age", {
+          welfare_id: this.input_id,
+          age_lower: age_l,
+          age_upper: age_h,
+        })
+        .then(function (response) {
+          return response.data;
+        });
+      console.log(age_msg);
+
+      var new_tag_arr = [];
+      var rmv_tag_arr = [];
+      // new tags to create(tag_id === ""), add(tag_id not in input_str)
+      for (var i = 0; i < this.selectedTags.length; ++i) {
+        if (this.selectedTags[i].tag_id === "") {
+          const new_tid = await this.axios
+            .post("/backend/tags", {
+              tag: this.selectedTags[i].tag,
+            })
+            .then(function (response) {
+              return response.data.insertId;
+            });
+          new_tag_arr.push(new_tid);
+          continue;
+        }
+
+        var contain = false;
+        for (var j = 0; j < this.input_str.selectedTags.length; ++j) {
+          if (
+            this.selectedTags[i].tag_id ===
+            this.input_str.selectedTags[j].tag_id
+          ) {
+            contain = true;
+            break;
+          }
+        }
+
+        if (!contain) {
+          const new_tid = this.selectedTags[i].tag_id;
+          new_tag_arr.push(new_tid);
+        }
+      }
+
+      // remove tags (input_str not selected)
+      for (i = 0; i < this.input_str.selectedTags.length; ++i) {
+        contain = false;
+        for (j = 0; j < this.selectedTags.length; ++j) {
+          if (
+            this.input_str.selectedTags[i].tag_id ===
+            this.selectedTags[j].tag_id
+          ) {
+            contain = true;
+            break;
+          }
+        }
+        if (!contain) {
+          const rmv_tid = this.input_str.selectedTags[i].tag_id;
+          rmv_tag_arr.push(rmv_tid);
+        }
+      }
+
+      // adding new correspondings to db
+      for (i = 0; i < new_tag_arr.length; ++i) {
+        const cor_msg = await this.axios
+          .post("/backend/corresponding", {
+            welfare_id: this.input_id,
+            tag_id: new_tag_arr[i],
           })
           .then(function (response) {
             return response.data;
           });
-        console.log(age_msg);
-        // adding new tags to db
-        var tag_arr = [];
-        for (var i = 0; i < this.selectedTags.length; ++i) {
-          var contain = false;
-          for (var j = 0; j < this.tags_data.length; ++j) {
-            if (this.tags_data[j].tag === this.selectedTags[i].tag) {
-              contain = true;
-              break;
-            }
-          }
-          if (contain) {
-            tag_arr.push(this.selectedTags[i].tag_id);
-          } else {
-            const new_tid = await this.axios
-              .post("/backend/tags", {
-                tag: this.selectedTags[i].tag,
-              })
-              .then(function (response) {
-                return response.data.insertId;
-              });
-            tag_arr.push(new_tid);
-          }
-        }
-        console.log(tag_arr);
-        // adding new correspondings to db
-        for (i = 0; i < tag_arr.length; ++i) {
-          const cor_msg = await this.axios
-            .post("/backend/corresponding", {
-              welfare_id: new_wid,
-              tag_id: tag_arr[i],
-            })
+        console.log("added cor:");
+        console.log(cor_msg);
+      }
+
+      // removing old correspondings from db
+      for (i = 0; i < rmv_tag_arr.length; ++i) {
+        const cor_cnt = await this.axios
+          .get(
+            `/backend/corresponding/?_where=(tag_id,eq,${rmv_tag_arr[i]})&_fields=tag_id`
+          )
+          .then(function (response) {
+            return response.data.length;
+          });
+        if (cor_cnt === 1) {
+          const del_msg = await this.axios
+            .delete("/backend/tags/" + rmv_tag_arr[i])
             .then(function (response) {
               return response.data;
             });
-          console.log(cor_msg);
+          console.log("deleted: " + del_msg);
+          console.log(del_msg);
         }
-        //reset input
-        this.reset_input();
-        this.$emit("reformed");
+
+        const cor_msg = await this.axios
+          .delete(`/backend/corresponding/${this.input_id}___${rmv_tag_arr[i]}`)
+          .then(function (response) {
+            return response.data;
+          });
+        console.log("removed cor");
+        console.log(cor_msg);
       }
+      //reset input
+      this.reset_input();
+      this.$emit("reformed");
+      alert(this.success_text);
+    }, //生育補助
+    async add_welfare() {
+      const new_wid = await this.axios
+        .post("/backend/overall", {
+          name: this.input_name,
+          welfare: this.input_welfare,
+          application_agency: this.input_apply,
+          contact_info: this.input_contact,
+          criteria: this.input_criteria,
+          document_needed: this.input_doc,
+          notice: this.input_notice,
+        })
+        .then(function (response) {
+          return response.data.insertId;
+        });
+      console.log(new_wid);
+
+      // adding wid age range to db
+      var age_l, age_h;
+      if (this.age_enable) {
+        age_l = this.age_range[0];
+        age_h = this.age_range[1];
+      } else {
+        age_l = 0;
+        age_h = 100;
+      }
+      console.log(age_l, age_h);
+      const age_msg = await this.axios
+        .post("/backend/age", {
+          welfare_id: new_wid,
+          age_lower: age_l,
+          age_upper: age_h,
+        })
+        .then(function (response) {
+          return response.data;
+        });
+      console.log(age_msg);
+      // adding new tags to db
+      var tag_arr = [];
+      for (var i = 0; i < this.selectedTags.length; ++i) {
+        if (this.selectedTags[i].tag_id === "") {
+          const new_tid = await this.axios
+            .post("/backend/tags", {
+              tag: this.selectedTags[i].tag,
+            })
+            .then(function (response) {
+              return response.data.insertId;
+            });
+          tag_arr.push(new_tid);
+        } else {
+          tag_arr.push(this.selectedTags[i].tag_id);
+        }
+      }
+      // adding new correspondings to db
+      for (i = 0; i < tag_arr.length; ++i) {
+        const cor_msg = await this.axios
+          .post("/backend/corresponding", {
+            welfare_id: new_wid,
+            tag_id: tag_arr[i],
+          })
+          .then(function (response) {
+            return response.data;
+          });
+        console.log("added cor: " + cor_msg);
+      }
+      //reset input
+      this.reset_input();
+      this.$emit("reformed");
+      alert(this.success_text);
     },
   },
 };

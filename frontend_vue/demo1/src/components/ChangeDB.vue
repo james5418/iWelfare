@@ -14,7 +14,7 @@
             placeholder="請輸入要修改的welfare_id"
           ></b-form-input>
 
-          <b-button variant="secondary" @click="fetchData()">
+          <b-button variant="secondary" @click="modifyDB()">
             <b-icon icon="pencil-square"></b-icon>
           </b-button>
 
@@ -25,7 +25,11 @@
       </div>
 
       <b-modal ref="changedb" size="xl" hide-footer lazy title="修改">
-        <AddDB mode="update" :input_str="input_str" />
+        <AddDB
+          @reformed="reformed('changedb')"
+          mode="update"
+          :input_str="input_str"
+        />
       </b-modal>
     </b-card>
   </b-container>
@@ -52,6 +56,7 @@ export default {
       tag_data: [],
       select_tag: [],
       input_str: {
+        input_id: "",
         input_name: "",
         input_welfare: "",
         input_apply: "",
@@ -65,7 +70,7 @@ export default {
     };
   },
   methods: {
-    async fetchData() {
+    async modifyDB() {
       const val = await this.axios
         .get("/backend/overall/" + this.changeID)
         .then(function (response) {
@@ -73,6 +78,7 @@ export default {
         });
       this.welfare_data = val;
       //console.log(this.welfare_data);
+      this.input_str.input_id = this.welfare_data[0].welfare_id;
       this.input_str.input_name = this.welfare_data[0].name;
       this.input_str.input_welfare = this.welfare_data[0].welfare;
       this.input_str.input_apply = this.welfare_data[0].application_agency;
@@ -100,7 +106,7 @@ export default {
           return response.data;
         });
       this.input_str.selectedTags = val3;
-      this.$refs['changedb'].show();
+      this.$refs["changedb"].show();
       console.log(this.input_str);
     },
     async deleteDB() {
@@ -116,6 +122,9 @@ export default {
           return response.data;
         });
       console.log(val2);
+    },
+    async reformed() {
+      this.$refs["changedb"].hide();
     },
   },
 };

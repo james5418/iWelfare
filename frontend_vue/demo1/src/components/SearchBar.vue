@@ -7,7 +7,6 @@
       <b-card
         bg-variant="light"
         align="center"
-        
         img-src="/logo.png"
         class="text-center"
       >
@@ -53,7 +52,6 @@
             split
             boundary
             @click="search_welfare(selectedTags, age)"
-            ref="container"
           >
             <b-dropdown-item v-for="(tag, key) in tags_data" :key="key">
               <div @click="append_selected(tag)">{{ tag.tag }}</div>
@@ -77,7 +75,12 @@
       </b-card>
 
       <div>
-        <b-collapse id="collapse-t" v-model="table_visible" class="mt-2">
+        <b-collapse
+          ref="container"
+          id="collapse-t"
+          v-model="table_visible"
+          class="mt-2"
+        >
           <div style="right: 5rem">一共 {{ search_cnt }} 筆搜尋結果</div>
           <hr />
           <ReturnList :msgs="msgs" />

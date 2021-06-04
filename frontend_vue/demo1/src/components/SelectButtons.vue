@@ -1,6 +1,5 @@
 <template>
   <div>
-    <br/>
     <b-container fluid>
       <b-card bg-variant="light" text-variant="black" title="福利別">
         <b-button-group size="lg">
@@ -64,7 +63,12 @@
       </div>
 
       <div>
-        <b-collapse id="collapse-t" v-model="table_visible" class="mt-2">
+        <b-collapse
+          ref="container"
+          id="collapse-t"
+          v-model="table_visible"
+          class="mt-2"
+        >
           <div style="right: 5rem">一共 {{ search_cnt }} 筆搜尋結果</div>
           <hr />
           <ReturnList :msgs="msgs" />
@@ -118,7 +122,10 @@ export default {
       return this.button2.map((btn) => btn.state);
     },
   },
-
+  watch: {
+    "$route.path": "this.fetchData",
+    msgs: "scrolltoTable",
+  },
   methods: {
     async search_tags(wid) {
       const qstr = `SELECT t.tag_id, tag FROM ( SELECT tag_id FROM corresponding WHERE welfare_id = ${wid} ) as c INNER JOIN tags t ON t.tag_id = c.tag_id ORDER BY c.tag_id`;
@@ -133,51 +140,36 @@ export default {
     },
 
     async search_welfare() {
-      // var tags = [];
-
-      // for (var j = 0; j < 4; j++) {
-      //   if (this.button1[j]["state"]) {
-      //     tags.push(this.button1[j]["tid"]);
-      //   }
-      // }
-      // for (j = 0; j < 4; j++) {
-      //   if (this.button2[j]["state"]) {
-      //     tags.push(this.button2[j]["tid"]);
-      //   }
-      // }
-      // if (this.selectArea != null) {
-      //   tags.push(this.selectArea);
-      // }
-
       if (!this.verify_button() || !this.verify_area()) {
         alert("請選擇條件再進行搜尋！");
         return;
       }
 
-      var qstr = `SELECT distinct o.welfare_id , o.name FROM overall o, `;
+      var qstr = `SELECT o.welfare_id , o.name FROM overall o, `;
 
-      qstr += `(SELECT welfare_id FROM corresponding WHERE tag_id = "${
+      qstr += `(SELECT DISTINCT welfare_id FROM corresponding WHERE tag_id = "${
         //tags[tags.length - 1]
         this.selectArea
       }" ) x, `;
 
       qstr += `(SELECT welfare_id FROM age WHERE (age_lower <= ${this.ageValue}) AND (age_upper >= ${this.ageValue}) ) y, `;
+      qstr += `(SELECT DISTINCT welfare_id FROM corresponding WHERE `;
 
-      qstr += `(SELECT welfare_id FROM corresponding WHERE `;
-
-      // for (var i = 0; i < tags.length - 1; ++i) {
-      //   qstr += `(tag_id = "${tags[i]}") `;
-      //   if (i != tags.length - 2) qstr += "OR ";
-      // }
-
+      var b_tags = [];
       for (var i = 0; i < this.button1.length; ++i) {
-        qstr += `(tag_id = "${this.button1[i]["tid"]}") `;
-        qstr += "OR ";
+        if (this.button1[i].state) {
+          b_tags.push(this.button1[i]["tid"]);
+        }
+      }
+      for (i = 0; i < this.button2.length; ++i) {
+        if (this.button2[i].state) {
+          b_tags.push(this.button2[i]["tid"]);
+        }
       }
 
-      for (var j = 0; j < this.button2.length; ++j) {
-        qstr += `(tag_id = "${this.button2[j]["tid"]}") `;
-        if (j != this.button2.length - 1) qstr += "OR ";
+      for (i = 0; i < b_tags.length; ++i) {
+        qstr += `(tag_id = "${b_tags[i]}") `;
+        if (i < b_tags.length - 1) qstr += "OR ";
       }
 
       qstr += ` ) z WHERE o.welfare_id=x.welfare_id AND o.welfare_id=y.welfare_id AND o.welfare_id=z.welfare_id;`;
@@ -190,9 +182,6 @@ export default {
           return response.data;
         });
 
-      this.search_cnt = val.length;
-      this.table_visible = true;
-
       var arr = [];
       for (i = 0; i < val.length; ++i) {
         const got_tags = await this.search_tags(val[i]["welfare_id"]);
@@ -204,6 +193,8 @@ export default {
         });
       }
 
+      this.search_cnt = val.length;
+      this.table_visible = true;
       this.msgs = arr;
     },
     verify_area() {
@@ -212,7 +203,6 @@ export default {
       }
       return false;
     },
-
     verify_button() {
       for (var i = 0; i < this.button1.length; i++) {
         if (this.button1[i]["state"]) {
@@ -225,6 +215,16 @@ export default {
         }
       }
       return false;
+    },
+    scrolltoTable() {
+      const element = this.$refs["container"];
+      //console.log(element.$el.offsetTop);
+      setTimeout(function () {
+        window.scrollTo({
+          top: element.$el.offsetTop,
+          behavior: "smooth",
+        });
+      });
     },
   },
 };

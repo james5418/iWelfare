@@ -14,7 +14,7 @@
             placeholder="請輸入要修改的welfare_id"
           ></b-form-input>
 
-          <b-button variant="secondary" v-b-modal.changedb @click="fetchData()">
+          <b-button variant="secondary" @click="fetchData()">
             <b-icon icon="pencil-square"></b-icon>
           </b-button>
 
@@ -24,7 +24,7 @@
         </b-input-group>
       </div>
 
-      <b-modal id="changedb" size="xl" hide-footer lazy title="修改">
+      <b-modal ref="changedb" size="xl" hide-footer lazy title="修改">
         <AddDB mode="update" :input_str="input_str" />
       </b-modal>
     </b-card>
@@ -100,6 +100,7 @@ export default {
           return response.data;
         });
       this.input_str.selectedTags = val3;
+      this.$refs['changedb'].show();
       console.log(this.input_str);
     },
     async deleteDB() {

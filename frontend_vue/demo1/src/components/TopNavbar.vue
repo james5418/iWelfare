@@ -64,7 +64,7 @@ export default {
   methods: {
     test() {
       this.$router.push(`/name/${this.input_name}`);
-    }
-  }
+    },
+  },
 };
 </script>

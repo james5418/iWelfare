@@ -132,23 +132,23 @@ export default {
     },
 
     async search_welfare() {
-      var tags = [];
+      // var tags = [];
 
-      for (var j = 0; j < 4; j++) {
-        if (this.button1[j]["state"]) {
-          tags.push(this.button1[j]["tid"]);
-        }
-      }
-      for (j = 0; j < 4; j++) {
-        if (this.button2[j]["state"]) {
-          tags.push(this.button2[j]["tid"]);
-        }
-      }
-      if (this.selectArea != null) {
-        tags.push(this.selectArea);
-      }
+      // for (var j = 0; j < 4; j++) {
+      //   if (this.button1[j]["state"]) {
+      //     tags.push(this.button1[j]["tid"]);
+      //   }
+      // }
+      // for (j = 0; j < 4; j++) {
+      //   if (this.button2[j]["state"]) {
+      //     tags.push(this.button2[j]["tid"]);
+      //   }
+      // }
+      // if (this.selectArea != null) {
+      //   tags.push(this.selectArea);
+      // }
 
-      if (tags.length === 0) {
+      if (!this.verify_button() || !this.verify_area()) {
         alert("請選擇條件再進行搜尋！");
         return;
       }
@@ -156,16 +156,27 @@ export default {
       var qstr = `SELECT distinct o.welfare_id , o.name FROM overall o, `;
 
       qstr += `(SELECT welfare_id FROM corresponding WHERE tag_id = "${
-        tags[tags.length - 1]
+        //tags[tags.length - 1]
+        this.selectArea
       }" ) x, `;
 
       qstr += `(SELECT welfare_id FROM age WHERE (age_lower <= ${this.ageValue}) AND (age_upper >= ${this.ageValue}) ) y, `;
 
       qstr += `(SELECT welfare_id FROM corresponding WHERE `;
 
-      for (var i = 0; i < tags.length - 1; ++i) {
-        qstr += `(tag_id = "${tags[i]}") `;
-        if (i != tags.length - 2) qstr += "OR ";
+      // for (var i = 0; i < tags.length - 1; ++i) {
+      //   qstr += `(tag_id = "${tags[i]}") `;
+      //   if (i != tags.length - 2) qstr += "OR ";
+      // }
+
+      for (var i = 0; i < this.button1.length; ++i) {
+        qstr += `(tag_id = "${this.button1[i]["tid"]}") `;
+        qstr += "OR ";
+      }
+
+      for (var j = 0; j < this.button2.length; ++j) {
+        qstr += `(tag_id = "${this.button2[j]["tid"]}") `;
+        if (j != this.button2.length - 1) qstr += "OR ";
       }
 
       qstr += ` ) z WHERE o.welfare_id=x.welfare_id AND o.welfare_id=y.welfare_id AND o.welfare_id=z.welfare_id;`;
@@ -193,6 +204,26 @@ export default {
       }
 
       this.msgs = arr;
+    },
+    verify_area() {
+      if (this.selectArea !== null) {
+        return true;
+      }
+      return false;
+    },
+
+    verify_button() {
+      for (var i = 0; i < this.button1.length; i++) {
+        if (this.button1[i]["state"]) {
+          return true;
+        }
+      }
+      for (i = 0; i < this.button2.length; i++) {
+        if (this.button2[i]["state"]) {
+          return true;
+        }
+      }
+      return false;
     },
   },
 };

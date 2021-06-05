@@ -8,7 +8,7 @@
             v-for="(btn, idx) in button1"
             :key="idx"
             :pressed.sync="btn.state"
-            variant="outline-primary"
+            variant="outline-info"
           >
             {{ btn.caption }}
           </b-button>
@@ -21,7 +21,7 @@
             v-for="(btn, idx) in button2"
             :key="idx"
             :pressed.sync="btn.state"
-            variant="outline-primary"
+            variant="outline-info"
           >
             {{ btn.caption }}
           </b-button>

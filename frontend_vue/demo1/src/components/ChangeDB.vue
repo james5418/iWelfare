@@ -117,7 +117,7 @@ export default {
           return response.data;
         });
       console.log(val);
-      
+
       const val2 = await this.axios
         .delete("/backend/age/" + this.changeID)
         .then(function (response) {
@@ -136,11 +136,6 @@ export default {
 
       console.log(val3);
 
-      // for(var k=0;k<val3.length;k++){
-      //   this.deleteCorresponding.push(val3[k]["tag_id"]);
-      // }
-      // console.log(this.deleteCorresponding);
-
       for (var k = 0; k < val3.length; k++) {
         const val4 = await this.axios
           .delete(
@@ -154,6 +149,7 @@ export default {
           });
         console.log(val4);
       }
+      alert("已刪除 welfare_id = " + this.changeID);
     },
     async reformed() {
       this.$refs["changedb"].hide();

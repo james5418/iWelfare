@@ -1,6 +1,6 @@
 <template>
   <b-container fluid class="bv-example-row">
-    <div>{{ selectedTags }}</div>
+    <!-- <div>{{ selectedTags }}</div> -->
     <b-card
       :header="header_text"
       header-bg-variant="secondary"

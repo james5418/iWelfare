@@ -9,10 +9,22 @@
     >
       <div>
         <b-input-group prepend="welfare_id">
-          <b-form-input
+          <!-- <b-form-input
             v-model="changeID"
             placeholder="請輸入要修改的welfare_id"
-          ></b-form-input>
+          ></b-form-input> -->
+          <b-form-select
+            v-model="changeID"
+            :options="legal_welfare_id"
+            value-field="welfare_id"
+            text-field="welfare_id"
+          >
+            <template #first>
+              <b-form-select-option :value="null" disabled
+                >-- 選擇welfare_id --</b-form-select-option
+              >
+            </template>
+          </b-form-select>
 
           <b-button variant="secondary" @click="modifyDB()">
             <b-icon icon="pencil-square"></b-icon>
@@ -43,14 +55,14 @@ export default {
     AddDB,
   },
   created() {
-    // this.fetchData();
+    this.fetch_welfare_id();
   },
   watch: {
     "$route.path": "this.fetchData",
   },
   data() {
     return {
-      changeID: "",
+      changeID: null,
       welfare_data: [],
       age_data: [],
       tag_data: [],
@@ -68,9 +80,23 @@ export default {
         selectedTags: [],
       },
       deleteCorresponding: [],
+      legal_welfare_id: [],
     };
   },
   methods: {
+    async fetch_welfare_id(){
+      var qstr = `SELECT welfare_id FROM overall`;
+      const val = await this.axios
+        .post("/mysql", {
+          query: qstr,
+        })
+        .then(function (response) {
+          return response.data;
+        });
+        for(var i=0;i<val.length;i++){
+          this.legal_welfare_id.push(val[i]);
+        }
+    },
     async modifyDB() {
       const val = await this.axios
         .get("/backend/overall/" + this.changeID)

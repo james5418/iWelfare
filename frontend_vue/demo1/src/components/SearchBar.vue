@@ -7,7 +7,6 @@
       <b-card
         bg-variant="light"
         align="center"
-        
         img-src="/logo.png"
         class="text-center"
       >

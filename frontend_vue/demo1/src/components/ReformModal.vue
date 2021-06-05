@@ -13,13 +13,6 @@
       :fields="fields"
       :items="[bonusLine]"
     >
-      <template #cell(reform)="row">
-        <li v-for="(value, key) in row.item" :key="key">
-          <b-button variant="info" size="sm" :href="`/tag/${value.tag_id}`">
-            {{ value.tag }}
-          </b-button>
-        </li>
-      </template>
     </b-table>
   </b-container>
 </template>
@@ -51,7 +44,6 @@ export default {
       //console.log(val);
       this.bonus_data = val;
       this.fields = Object.keys(val[0]);
-      this.fields.push({ key: "reform", label: "重建此項目" });
     },
     async delBonus(id) {
       console.log("delete " + id);

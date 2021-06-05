@@ -74,7 +74,7 @@ export default {
       this.bonus_data = val;
       this.fields = Object.keys(val[0]);
       this.exfields = Object.keys(val[0]);
-      this.exfields.push("reform");
+      this.exfields.push({ key: "reform", label: "重建項目" });
     },
     async reformed(id) {
       this.$bvModal.hide(id);

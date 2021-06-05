@@ -21,12 +21,12 @@
               class="mr-sm-2"
               placeholder="福利項目名稱查詢"
               v-model="input_name"
-              @keydown.enter.prevent="test()"
+              @keydown.enter.prevent="redirect(input_name)"
             ></b-form-input>
             <b-button
               size="sm"
               class="my-2 my-sm-0"
-              :href="`/name/${this.input_name}`"
+              @click="redirect(input_name)"
               >搜尋</b-button
             >
           </b-nav-form>
@@ -63,8 +63,9 @@ export default {
     };
   },
   methods: {
-    test() {
-      this.$router.push(`/name/${this.input_name}`);
+    redirect(inpu) {
+      if (inpu === "") return;
+      this.$router.push(`/name/${inpu}`);
     },
   },
 };

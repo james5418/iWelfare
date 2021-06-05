@@ -1,9 +1,6 @@
 <template>
   <div>
-<<<<<<< HEAD
     <br />
-=======
->>>>>>> fcd8afbe36d5f73e7c2d905dd761d5a3db0c0e5a
     <b-container fluid>
       <b-card bg-variant="light" text-variant="black" title="福利別">
         <b-button-group size="lg">

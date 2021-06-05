@@ -117,14 +117,13 @@ export default {
           return response.data;
         });
       console.log(val);
+      
       const val2 = await this.axios
         .delete("/backend/age/" + this.changeID)
         .then(function (response) {
           return response.data;
         });
       console.log(val2);
-
-
 
       var qstr = `SELECT tag_id FROM corresponding WHERE welfare_id = ${this.changeID}`;
       const val3 = await this.axios
@@ -135,26 +134,26 @@ export default {
           return response.data;
         });
 
-        console.log(val3);
+      console.log(val3);
 
-        // for(var k=0;k<val3.length;k++){
-        //   this.deleteCorresponding.push(val3[k]["tag_id"]);
-        // }
-        // console.log(this.deleteCorresponding);
-        
-        for(var k=0;k<val3.length;k++){
-          const val4 = await this.axios
-          .delete("/backend/corresponding/" + this.changeID + "___" +  val3[k]["tag_id"])
+      // for(var k=0;k<val3.length;k++){
+      //   this.deleteCorresponding.push(val3[k]["tag_id"]);
+      // }
+      // console.log(this.deleteCorresponding);
+
+      for (var k = 0; k < val3.length; k++) {
+        const val4 = await this.axios
+          .delete(
+            "/backend/corresponding/" +
+              this.changeID +
+              "___" +
+              val3[k]["tag_id"]
+          )
           .then(function (response) {
             return response.data;
           });
-          console.log(val4);
-        }
-
-
-        
-
-
+        console.log(val4);
+      }
     },
     async reformed() {
       this.$refs["changedb"].hide();

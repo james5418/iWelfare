@@ -1,5 +1,6 @@
 <template>
   <div>
+    <br />
     <b-container fluid>
       <b-card bg-variant="light" text-variant="black" title="福利別">
         <b-button-group size="lg">
@@ -7,7 +8,7 @@
             v-for="(btn, idx) in button1"
             :key="idx"
             :pressed.sync="btn.state"
-            variant="outline-primary"
+            variant="outline-info"
           >
             {{ btn.caption }}
           </b-button>
@@ -20,7 +21,7 @@
             v-for="(btn, idx) in button2"
             :key="idx"
             :pressed.sync="btn.state"
-            variant="outline-primary"
+            variant="outline-info"
           >
             {{ btn.caption }}
           </b-button>
@@ -106,7 +107,6 @@ export default {
         { text: "台中市", value: 4 },
         { text: "台南市", value: 2 },
         { text: "屏東縣", value: 1 },
-        { text: "其他", value: null },
       ],
       ageValue: 0,
       msgs: [],

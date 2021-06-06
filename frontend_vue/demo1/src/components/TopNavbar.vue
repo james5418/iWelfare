@@ -14,7 +14,7 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item to="/modify">編輯頁面</b-nav-item>
+          <b-nav-item to="/modify">編輯資料庫</b-nav-item>
           <b-nav-form>
             <b-form-input
               size="sm"

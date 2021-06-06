@@ -93,12 +93,14 @@ export default {
         .then(function (response) {
           return response.data;
         });
+      var wid_list = [];
       for (var i = 0; i < val.length; i++) {
-        this.legal_welfare_id.push({
+        wid_list.push({
           welfare_id: val[i].welfare_id,
           text: `id: ${val[i].welfare_id}   ${val[i].name}`,
         });
       }
+      this.legal_welfare_id = wid_list;
     },
     async modifyDB() {
       if (this.changeID === null) {
@@ -141,7 +143,6 @@ export default {
         });
       this.input_str.selectedTags = val3;
       this.$refs["changedb"].show();
-      console.log(this.input_str);
     },
     async deleteDB() {
       if (confirm("確認刪除標籤？")) {
@@ -192,6 +193,7 @@ export default {
       }
     },
     async reformed() {
+      this.fetch_welfare_id();
       this.$refs["changedb"].hide();
     },
   },

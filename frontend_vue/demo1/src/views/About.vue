@@ -1,7 +1,7 @@
 <template>
   <div class="about">
-    <!-- <img alt="Vue logo" src="/logo3.png" width="150" height="150" /> -->
-
+    <img src="/logo.png" align="middle" />
+    
     <b-container>
       <br />
       <br />

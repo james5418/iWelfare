@@ -88,7 +88,7 @@ export default {
     return {
       button1: [
         { caption: "中低收入戶", tid: 21, state: false },
-        { caption: "特殊境域家庭", tid: 15, state: false },
+        { caption: "生活補助", tid: 22, state: false },
         { caption: "單親家庭", tid: 19, state: false },
         { caption: "交通", tid: 51, state: false },
       ],

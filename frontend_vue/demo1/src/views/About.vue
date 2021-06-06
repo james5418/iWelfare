@@ -20,25 +20,23 @@
 
       <br />
       <h1 class="page-title">Contributors</h1>
-
-
     </b-container>
   </div>
 </template>
 
 <style scoped lang="scss">
 .page-title {
-	font-size: 2.5rem;
-	font-weight: 700;
-	margin-top: 0;
-	margin-bottom: 0.75em;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0.75em;
 }
 
 blockquote {
-	font-size: 1.25em;
-	margin: 1em 275px 1em 275px;
-	padding-left: 3em;
-	border-left: 3px solid rgb(55, 53, 47);
-  text-align:left;
+  font-size: 1.25em;
+  margin: 1em 275px 1em 275px;
+  padding-left: 3em;
+  border-left: 3px solid rgb(55, 53, 47);
+  text-align: left;
 }
 </style>

@@ -84,7 +84,7 @@ export default {
     };
   },
   methods: {
-    async fetch_welfare_id(){
+    async fetch_welfare_id() {
       var qstr = `SELECT welfare_id FROM overall`;
       const val = await this.axios
         .post("/mysql", {
@@ -93,9 +93,9 @@ export default {
         .then(function (response) {
           return response.data;
         });
-        for(var i=0;i<val.length;i++){
-          this.legal_welfare_id.push(val[i]);
-        }
+      for (var i = 0; i < val.length; i++) {
+        this.legal_welfare_id.push(val[i]);
+      }
     },
     async modifyDB() {
       const val = await this.axios

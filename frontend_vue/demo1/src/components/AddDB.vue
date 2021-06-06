@@ -261,7 +261,7 @@ export default {
           return response.data;
         });
       console.log(age_msg);
-      
+
       // new tags to create(tag_id === "")
       var new_tag_arr = [];
       for (var i = 0; i < this.selectedTags.length; ++i) {
@@ -279,9 +279,9 @@ export default {
       }
 
       // add(tag_id not in input_str)
-      for (var i = 0; i < this.selectedTags.length; ++i) {
+      for (i = 0; i < this.selectedTags.length; ++i) {
         if (this.selectedTags[i].tag_id === "") return;
-        
+
         var contain = false;
         for (var j = 0; j < this.input_str.selectedTags.length; ++j) {
           if (
@@ -348,13 +348,13 @@ export default {
             });
           console.log(del_msg);
         }
-      
-      //removing old corresponings
-      const cor_msg = await this.axios
-        .delete(`/backend/corresponding/${this.input_id}___${rmv_tag_arr[i]}`)
-        .then(function (response) {
-          return response.data;
-        });
+
+        //removing old corresponings
+        const cor_msg = await this.axios
+          .delete(`/backend/corresponding/${this.input_id}___${rmv_tag_arr[i]}`)
+          .then(function (response) {
+            return response.data;
+          });
         console.log(cor_msg);
       }
 
@@ -362,7 +362,7 @@ export default {
       this.$emit("reformed");
       alert(this.success_text);
     },
-    
+
     async add_welfare() {
       //add new overall, get new wid.
       const new_wid = await this.axios
@@ -413,12 +413,12 @@ export default {
               return response.data.insertId;
             });
 
-          tag_arr.push(new_tid); 
+          tag_arr.push(new_tid);
         } else {
           tag_arr.push(this.selectedTags[i].tag_id);
         }
       }
-      
+
       // adding new correspondings to db
       for (i = 0; i < tag_arr.length; ++i) {
         const cor_msg = await this.axios

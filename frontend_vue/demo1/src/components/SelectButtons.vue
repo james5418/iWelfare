@@ -107,7 +107,6 @@ export default {
         { text: "台中市", value: 4 },
         { text: "台南市", value: 2 },
         { text: "屏東縣", value: 1 },
-        { text: "其他", value: null },
       ],
       ageValue: 0,
       msgs: [],

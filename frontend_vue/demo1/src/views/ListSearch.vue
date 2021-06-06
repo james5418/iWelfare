@@ -1,7 +1,7 @@
 <template>
   <div class="ListSearch">
     <!-- <img alt="Vue logo" src="/favicon.ico" /> -->
-    <img alt="Vue logo" src="/logo3.jpg" width="110" height="110" />
+    <img alt="Vue logo" src="/logo3.png" width="120" height="120" />
     <br /><br />
     <h1>個人條件查詢</h1>
     <SelectButtons />

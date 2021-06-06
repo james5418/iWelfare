@@ -1,6 +1,6 @@
 <template>
   <div class="database">
-    <img alt="Vue logo" src="/logo3.jpg" width="110" height="110" />
+    <img alt="Vue logo" src="/logo3.png" width="120" height="120" />
     <br /><br />
     <ReformDB />
   </div>

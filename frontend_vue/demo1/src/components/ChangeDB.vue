@@ -100,6 +100,7 @@ export default {
           text: `id: ${val[i].welfare_id}   ${val[i].name}`,
         });
       }
+      this.changeID = null;
       this.legal_welfare_id = wid_list;
     },
     async modifyDB() {
@@ -188,8 +189,8 @@ export default {
             });
           console.log(val4);
         }
-        alert("已刪除 welfare_id = " + this.changeID);
         this.fetch_welfare_id();
+        alert("已刪除 welfare_id = " + this.changeID);
       }
     },
     async reformed() {

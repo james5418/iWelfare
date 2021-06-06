@@ -1,6 +1,5 @@
 <template>
   <b-container fluid class="bv-example-row">
-    <!-- <div>{{ selectedTags }}</div> -->
     <b-card
       :header="header_text"
       header-bg-variant="secondary"
@@ -250,7 +249,7 @@ export default {
         age_l = 0;
         age_h = 100;
       }
-      console.log(age_l, age_h);
+
       const age_msg = await this.axios
         .put("/backend/age", {
           welfare_id: this.input_id,
@@ -262,9 +261,8 @@ export default {
         });
       console.log(age_msg);
 
+      // new tags to create(tag_id === "")
       var new_tag_arr = [];
-      var rmv_tag_arr = [];
-      // new tags to create(tag_id === ""), add(tag_id not in input_str)
       for (var i = 0; i < this.selectedTags.length; ++i) {
         if (this.selectedTags[i].tag_id === "") {
           const new_tid = await this.axios
@@ -275,8 +273,13 @@ export default {
               return response.data.insertId;
             });
           new_tag_arr.push(new_tid);
-          continue;
+          console.log("new_tid: " + new_tid);
         }
+      }
+
+      // add(tag_id not in input_str)
+      for (i = 0; i < this.selectedTags.length; ++i) {
+        if (this.selectedTags[i].tag_id === "") continue;
 
         var contain = false;
         for (var j = 0; j < this.input_str.selectedTags.length; ++j) {
@@ -288,28 +291,9 @@ export default {
             break;
           }
         }
-
         if (!contain) {
           const new_tid = this.selectedTags[i].tag_id;
           new_tag_arr.push(new_tid);
-        }
-      }
-
-      // remove tags (input_str not selected)
-      for (i = 0; i < this.input_str.selectedTags.length; ++i) {
-        contain = false;
-        for (j = 0; j < this.selectedTags.length; ++j) {
-          if (
-            this.input_str.selectedTags[i].tag_id ===
-            this.selectedTags[j].tag_id
-          ) {
-            contain = true;
-            break;
-          }
-        }
-        if (!contain) {
-          const rmv_tid = this.input_str.selectedTags[i].tag_id;
-          rmv_tag_arr.push(rmv_tid);
         }
       }
 
@@ -327,7 +311,26 @@ export default {
         console.log(cor_msg);
       }
 
-      // removing old correspondings from db
+      // remove tags (input_str not selected)
+      var rmv_tag_arr = [];
+      for (i = 0; i < this.input_str.selectedTags.length; ++i) {
+        contain = false;
+        for (j = 0; j < this.selectedTags.length; ++j) {
+          if (
+            this.input_str.selectedTags[i].tag_id ===
+            this.selectedTags[j].tag_id
+          ) {
+            contain = true;
+            break;
+          }
+        }
+        if (!contain) {
+          const rmv_tid = this.input_str.selectedTags[i].tag_id;
+          rmv_tag_arr.push(rmv_tid);
+        }
+      }
+
+      //removing not used tag from tags
       for (i = 0; i < rmv_tag_arr.length; ++i) {
         const cor_cnt = await this.axios
           .get(
@@ -342,24 +345,25 @@ export default {
             .then(function (response) {
               return response.data;
             });
-          console.log("deleted: " + del_msg);
           console.log(del_msg);
         }
 
+        //removing old corresponings
         const cor_msg = await this.axios
           .delete(`/backend/corresponding/${this.input_id}___${rmv_tag_arr[i]}`)
           .then(function (response) {
             return response.data;
           });
-        console.log("removed cor");
         console.log(cor_msg);
       }
-      //reset input
+
       this.reset_input();
       this.$emit("reformed");
       alert(this.success_text);
-    }, //生育補助
+    },
+
     async add_welfare() {
+      //add new overall, get new wid.
       const new_wid = await this.axios
         .post("/backend/overall", {
           name: this.input_name,
@@ -384,7 +388,7 @@ export default {
         age_l = 0;
         age_h = 100;
       }
-      console.log(age_l, age_h);
+
       const age_msg = await this.axios
         .post("/backend/age", {
           welfare_id: new_wid,
@@ -395,6 +399,7 @@ export default {
           return response.data;
         });
       console.log(age_msg);
+
       // adding new tags to db
       var tag_arr = [];
       for (var i = 0; i < this.selectedTags.length; ++i) {
@@ -406,11 +411,13 @@ export default {
             .then(function (response) {
               return response.data.insertId;
             });
+
           tag_arr.push(new_tid);
         } else {
           tag_arr.push(this.selectedTags[i].tag_id);
         }
       }
+
       // adding new correspondings to db
       for (i = 0; i < tag_arr.length; ++i) {
         const cor_msg = await this.axios
@@ -421,7 +428,7 @@ export default {
           .then(function (response) {
             return response.data;
           });
-        console.log("added cor: " + cor_msg);
+        console.log(cor_msg);
       }
       //reset input
       this.reset_input();

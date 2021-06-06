@@ -8,8 +8,8 @@
         <b-navbar-nav>
           <b-nav-item to="/">福利查詢</b-nav-item>
           <b-nav-item to="/listsearch">個人條件查詢</b-nav-item>
-          <b-nav-item to="/about">關於</b-nav-item>
           <b-nav-item to="/database">完善福利資料庫</b-nav-item>
+          <b-nav-item to="/about">關於</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->

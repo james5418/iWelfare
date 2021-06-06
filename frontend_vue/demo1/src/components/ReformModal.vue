@@ -52,7 +52,8 @@ export default {
         .then(function (response) {
           return response.data;
         });
-      console.log("delete msg" + del_msg);
+      console.log("delete msg");
+      console.log(del_msg);
     },
     async reformed() {
       await this.delBonus(this.bonusLine.id);

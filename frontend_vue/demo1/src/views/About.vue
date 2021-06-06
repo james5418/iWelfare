@@ -22,6 +22,7 @@
       <br />
       <br />
       <h1 class="page-title">Contributors</h1>
+<<<<<<< HEAD
 
       <b-card-group deck >
         <b-card title="周禹彤" img-src="/doge1.jpg" img-alt="Image" img-top style="width: 18rem;" >
@@ -48,6 +49,8 @@
           </template>
         </b-card>
       </b-card-group>
+=======
+>>>>>>> c5511cd61ad1c37661618b29535abcb728b15839
     </b-container>
     <br />
     <br />
@@ -56,17 +59,25 @@
 
 <style scoped lang="scss">
 .page-title {
-	font-size: 2.5rem;
-	font-weight: 700;
-	margin-top: 0;
-	margin-bottom: 0.75em;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0.75em;
 }
 
 blockquote {
+<<<<<<< HEAD
 	font-size: 1.25em;
 	margin: 1em 20px 1em 20px;
 	padding-left: 3em;
 	border-left: 3px solid rgb(55, 53, 47);
   text-align:left;
+=======
+  font-size: 1.25em;
+  margin: 1em 275px 1em 275px;
+  padding-left: 3em;
+  border-left: 3px solid rgb(55, 53, 47);
+  text-align: left;
+>>>>>>> c5511cd61ad1c37661618b29535abcb728b15839
 }
 </style>

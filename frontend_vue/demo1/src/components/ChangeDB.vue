@@ -17,7 +17,7 @@
             v-model="changeID"
             :options="legal_welfare_id"
             value-field="welfare_id"
-            text-field="welfare_id"
+            text-field="text"
           >
             <template #first>
               <b-form-select-option :value="null" disabled
@@ -36,7 +36,7 @@
         </b-input-group>
       </div>
 
-      <b-modal ref="changedb" size="xl" hide-footer lazy title="修改">
+      <b-modal ref="changedb" size="xl" hide-footer lazy title="修改資料庫">
         <AddDB
           @reformed="reformed('changedb')"
           mode="update"
@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     async fetch_welfare_id() {
-      var qstr = `SELECT welfare_id FROM overall`;
+      var qstr = `SELECT welfare_id, name FROM overall`;
       const val = await this.axios
         .post("/mysql", {
           query: qstr,
@@ -94,10 +94,17 @@ export default {
           return response.data;
         });
       for (var i = 0; i < val.length; i++) {
-        this.legal_welfare_id.push(val[i]);
+        this.legal_welfare_id.push({
+          welfare_id: val[i].welfare_id,
+          text: `id: ${val[i].welfare_id}   ${val[i].name}`,
+        });
       }
     },
     async modifyDB() {
+      if (this.changeID === null) {
+        alert("尚未選擇項目！");
+        return;
+      }
       const val = await this.axios
         .get("/backend/overall/" + this.changeID)
         .then(function (response) {
@@ -137,45 +144,52 @@ export default {
       console.log(this.input_str);
     },
     async deleteDB() {
-      const val = await this.axios
-        .delete("/backend/overall/" + this.changeID)
-        .then(function (response) {
-          return response.data;
-        });
-      console.log(val);
-
-      const val2 = await this.axios
-        .delete("/backend/age/" + this.changeID)
-        .then(function (response) {
-          return response.data;
-        });
-      console.log(val2);
-
-      var qstr = `SELECT tag_id FROM corresponding WHERE welfare_id = ${this.changeID}`;
-      const val3 = await this.axios
-        .post("/mysql", {
-          query: qstr,
-        })
-        .then(function (response) {
-          return response.data;
-        });
-
-      console.log(val3);
-
-      for (var k = 0; k < val3.length; k++) {
-        const val4 = await this.axios
-          .delete(
-            "/backend/corresponding/" +
-              this.changeID +
-              "___" +
-              val3[k]["tag_id"]
-          )
+      if (confirm("確認刪除標籤？")) {
+        if (this.changeID === null) {
+          alert("尚未選擇項目！");
+          return;
+        }
+        const val = await this.axios
+          .delete("/backend/overall/" + this.changeID)
           .then(function (response) {
             return response.data;
           });
-        console.log(val4);
+        console.log(val);
+
+        const val2 = await this.axios
+          .delete("/backend/age/" + this.changeID)
+          .then(function (response) {
+            return response.data;
+          });
+        console.log(val2);
+
+        var qstr = `SELECT tag_id FROM corresponding WHERE welfare_id = ${this.changeID}`;
+        const val3 = await this.axios
+          .post("/mysql", {
+            query: qstr,
+          })
+          .then(function (response) {
+            return response.data;
+          });
+
+        console.log(val3);
+
+        for (var k = 0; k < val3.length; k++) {
+          const val4 = await this.axios
+            .delete(
+              "/backend/corresponding/" +
+                this.changeID +
+                "___" +
+                val3[k]["tag_id"]
+            )
+            .then(function (response) {
+              return response.data;
+            });
+          console.log(val4);
+        }
+        alert("已刪除 welfare_id = " + this.changeID);
+        this.fetch_welfare_id();
       }
-      alert("已刪除 welfare_id = " + this.changeID);
     },
     async reformed() {
       this.$refs["changedb"].hide();

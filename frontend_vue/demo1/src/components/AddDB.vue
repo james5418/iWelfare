@@ -250,7 +250,6 @@ export default {
         age_h = 100;
       }
 
-      console.log(age_l, age_h);
       const age_msg = await this.axios
         .put("/backend/age", {
           welfare_id: this.input_id,
@@ -274,13 +273,13 @@ export default {
               return response.data.insertId;
             });
           new_tag_arr.push(new_tid);
-          continue;
+          console.log("new_tid: " + new_tid);
         }
       }
 
       // add(tag_id not in input_str)
       for (i = 0; i < this.selectedTags.length; ++i) {
-        if (this.selectedTags[i].tag_id === "") return;
+        if (this.selectedTags[i].tag_id === "") continue;
 
         var contain = false;
         for (var j = 0; j < this.input_str.selectedTags.length; ++j) {

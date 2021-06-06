@@ -31,7 +31,9 @@
                 v-model="input_name"
                 placeholder="新的標籤名稱"
               ></b-form-input>
-              <b-button @click="change_tag(input_name)"> 更改 </b-button>
+              <b-button @click="change_tag(selected, input_name)">
+                更改
+              </b-button>
             </b-input-group>
           </b-col>
         </b-row>
@@ -78,9 +80,13 @@ export default {
       }
       return false;
     },
-    async change_tag(tag_name) {
+    async change_tag(tag_id, tag_name) {
       if (confirm("確認修改標籤名稱？")) {
-        if (this.input_name === "") {
+        if (tag_id === null) {
+          alert("請選擇標籤！");
+          return;
+        }
+        if (tag_name === "") {
           alert("輸入不可為空！");
           return;
         }

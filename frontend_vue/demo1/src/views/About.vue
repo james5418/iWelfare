@@ -1,8 +1,8 @@
 <template>
   <div class="about">
-    <b-container fluid>
-      <img src="/logo.png" />
+    <img src="/logo.png" align="middle" />
 
+    <b-container>
       <br />
       <br />
       <h1 class="page-title">About</h1>
@@ -19,8 +19,61 @@
       </blockquote>
 
       <br />
+      <br />
       <h1 class="page-title">Contributors</h1>
+
+      <b-card-group deck>
+        <b-card
+          title="周禹彤"
+          img-src="/doge1.jpg"
+          img-alt="Image"
+          img-top
+          style="width: 18rem"
+        >
+          <template #footer>
+            <small class="text-muted">交大資工112級</small>
+          </template>
+        </b-card>
+
+        <b-card
+          title="王朋睿"
+          img-src="/doge2.jpg"
+          img-alt="Image"
+          img-top
+          style="width: 18rem"
+        >
+          <template #footer>
+            <small class="text-muted">交大資工112級</small>
+          </template>
+        </b-card>
+
+        <b-card
+          title="王培碩"
+          img-src="/doge3.jpg"
+          img-alt="Image"
+          img-top
+          style="width: 18rem"
+        >
+          <template #footer>
+            <small class="text-muted">交大資工112級</small>
+          </template>
+        </b-card>
+
+        <b-card
+          title="黃玟綾"
+          img-src="/doge4.jpg"
+          img-alt="Image"
+          img-top
+          style="width: 18rem"
+        >
+          <template #footer>
+            <small class="text-muted">交大資工112級</small>
+          </template>
+        </b-card>
+      </b-card-group>
     </b-container>
+    <br />
+    <br />
   </div>
 </template>
 
@@ -34,7 +87,7 @@
 
 blockquote {
   font-size: 1.25em;
-  margin: 1em 275px 1em 275px;
+  margin: 1em 20px 1em 20px;
   padding-left: 3em;
   border-left: 3px solid rgb(55, 53, 47);
   text-align: left;

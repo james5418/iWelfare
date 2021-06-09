@@ -166,7 +166,7 @@ export default {
         console.log(val2);
 
         var qstr = `SELECT tag_id FROM corresponding WHERE welfare_id = ${this.changeID}`;
-        const val3 = await this.axios
+        const rmv_corr = await this.axios
           .post("/mysql", {
             query: qstr,
           })
@@ -174,15 +174,34 @@ export default {
             return response.data;
           });
 
-        console.log(val3);
+        console.log(rmv_corr);
 
-        for (var k = 0; k < val3.length; k++) {
+        //removing not used tag from tags
+        for (var i = 0; i < rmv_corr.length; ++i) {
+          const cor_cnt = await this.axios
+            .get(
+              `/backend/corresponding/?_where=(tag_id,eq,${rmv_corr[i]["tag_id"]})&_fields=tag_id`
+            )
+            .then(function (response) {
+              return response.data.length;
+            });
+          if (cor_cnt === 1) {
+            const del_msg = await this.axios
+              .delete("/backend/tags/" + rmv_corr[i]["tag_id"])
+              .then(function (response) {
+                return response.data;
+              });
+            console.log(del_msg);
+          }
+        }
+
+        for (var k = 0; k < rmv_corr.length; k++) {
           const val4 = await this.axios
             .delete(
               "/backend/corresponding/" +
                 this.changeID +
                 "___" +
-                val3[k]["tag_id"]
+                rmv_corr[k]["tag_id"]
             )
             .then(function (response) {
               return response.data;

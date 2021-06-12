@@ -1,6 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Overall from "../views/Overall.vue";
+import Tag from "../views/Tag.vue";
+import Name from "../views/Name.vue";
 
 Vue.use(VueRouter);
 

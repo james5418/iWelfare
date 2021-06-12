@@ -1,9 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Overall from "../views/Overall.vue";
-import Tag from "../views/Tag.vue";
-import Name from "../views/Name.vue";
 
 Vue.use(VueRouter);
 
@@ -55,18 +52,25 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: Overall,
+    component: () =>
+      import(/* webpackChunkName: "overall" */ "../views/Overall.vue"),
   },
   {
     path: "/tag/:id",
     name: "Tag",
-    component: Tag,
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "tag" */ "../views/Tag.vue"),
   },
   {
     path: "/name/:name",
     name: "Name",
-    component: Name,
-  }
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "name" */ "../views/Name.vue"),
+  },
 ];
 
 const router = new VueRouter({

@@ -87,7 +87,7 @@ export default {
     async fetch_welfare_id() {
       var qstr = `SELECT welfare_id, name FROM overall`;
       const val = await this.axios
-        .post("/mysql", {
+        .post("/mysql/", {
           query: qstr,
         })
         .then(function (response) {
@@ -136,7 +136,7 @@ export default {
       //console.log(this.input_str)
       var qstr = `SELECT c.tag_id, t.tag FROM corresponding c, tags t WHERE c.welfare_id = ${this.changeID} and c.tag_id = t.tag_id `;
       const val3 = await this.axios
-        .post("/mysql", {
+        .post("/mysql/", {
           query: qstr,
         })
         .then(function (response) {
@@ -167,7 +167,7 @@ export default {
 
         var qstr = `SELECT tag_id FROM corresponding WHERE welfare_id = ${this.changeID}`;
         const rmv_corr = await this.axios
-          .post("/mysql", {
+          .post("/mysql/", {
             query: qstr,
           })
           .then(function (response) {

@@ -10,7 +10,7 @@ This is a project for NYCU_DBMS class in 2021
 xmysql -h localhost -u mysqlUsername -p mysqlPassword -d databaseName
 ```
 
-### 在 ./frontend_vue:
+### 在 ./frontend_vue/demo1 中啟動測試伺服器:
 ```
 npm run serve
 ```

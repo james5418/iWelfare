@@ -65,7 +65,7 @@ export default {
   methods: {
     redirect(inpu) {
       if (inpu === "") return;
-      this.$router.push(`/name/${inpu}`);
+      this.$router.push({ path: `/name/${inpu}` });
     },
   },
 };

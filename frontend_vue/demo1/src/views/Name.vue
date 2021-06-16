@@ -20,10 +20,15 @@ export default {
   created() {
     this.fetchData(this.$route.params.name);
   },
+  watch: {
+    "$route.params.name": function () {
+      this.fetchData(this.$route.params.name);
+    },
+  },
   data() {
     return {
       // Note `isActive` is left out and will not appear in the rendered table
-      search_name: this.$route.params.name,
+      search_name: "",
       table_visible: false,
       msgs: [],
       search_cnt: 0,
@@ -39,18 +44,18 @@ export default {
         .then(function (response) {
           return response.data;
         });
-      // var tag_arr = [];
-      // for (var i = 0; i < val.length; ++i) {
-      //   tag_arr.push(val[i]["tag"]);
-      // }
-      //console.log(tag_arr);
       return val;
     },
     async fetchData(name) {
-      const qstr = `SELECT welfare_id, name FROM overall WHERE name LIKE "%${name}%"`;
+      this.search_name = name;
+
+      const qstr = `SELECT welfare_id, name FROM overall WHERE name LIKE ?`;
+      const par = [`%${name}%`];
+
       const val = await this.axios
         .post("/mysql/", {
           query: qstr,
+          params: par,
         })
         .then(function (response) {
           return response.data;

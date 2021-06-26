@@ -130,7 +130,7 @@ export default {
     async search_tags(wid) {
       const qstr = `SELECT t.tag_id, tag FROM ( SELECT tag_id FROM corresponding WHERE welfare_id = ${wid} ) as c INNER JOIN tags t ON t.tag_id = c.tag_id ORDER BY c.tag_id`;
       const val = await this.axios
-        .post("/mysql", {
+        .post("/mysql/", {
           query: qstr,
         })
         .then(function (response) {
@@ -162,7 +162,7 @@ export default {
       qstr += `) as x GROUP BY welfare_id HAVING cnt = ${tag_cnt} ) as y INNER JOIN overall o ON o.welfare_id = y.welfare_id`;
       //console.log(qstr);
       const val = await this.axios
-        .post("/mysql", {
+        .post("/mysql/", {
           query: qstr,
         })
         .then(function (response) {

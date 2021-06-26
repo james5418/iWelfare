@@ -85,7 +85,7 @@ export default {
     async search_tags(wid) {
       const qstr = `SELECT t.tag_id, tag FROM ( SELECT tag_id FROM corresponding WHERE welfare_id = ${wid} ) as c INNER JOIN tags t ON t.tag_id = c.tag_id ORDER BY c.tag_id`;
       const val = await this.axios
-        .post("/mysql", {
+        .post("/mysql/", {
           query: qstr,
         })
         .then(function (response) {

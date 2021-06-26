@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <img src="/logo.png" align="middle" />
-    
+
     <b-container>
       <br />
       <br />

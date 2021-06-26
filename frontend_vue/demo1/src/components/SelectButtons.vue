@@ -140,7 +140,7 @@ export default {
     },
 
     async search_welfare() {
-      if (!this.verify_button() || !this.verify_area()) {
+      if (!this.verify_button() || !this.verify_area() || this.ageValue==0) {
         alert("請選擇條件再進行搜尋！");
         return;
       }

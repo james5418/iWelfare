@@ -7,7 +7,7 @@
 
 此外，我們訂定了完善資料庫的計畫，透過民眾外包（Crowdsourcing）的力量，快速擴增資料庫的涵蓋範圍，並將彙整好的資料以開源的形式，回饋給政府或民間使用，增加社福資源的利用率。
 
-[網站連結](https://www.notion.so/iWelfare-0b88def76c2d447ab1e089c22e59fbe0#986c76836ae54ecf9e6f8a791f967d61)
+[網站連結](https://www.lrnctu.tw/)
 
 
 
